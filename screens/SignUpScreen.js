@@ -45,9 +45,7 @@ export default function SignUpScreen() {
             <Text className="text-gray-700 ml-4">Full Name</Text>
             <TextInput
                 className="p-4 bg-gray-100 text-gray-700 rounded-2xl mb-3"
-                value=" "
                 placeholder='Enter Name'
-                selection={{ start: 0 }}
             />
             <Text className="text-gray-700 ml-4">Email Address</Text>
             <TextInput
