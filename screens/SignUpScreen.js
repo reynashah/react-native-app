@@ -28,7 +28,7 @@ export default function SignUpScreen() {
         <View className="flex-row justify-start">
             <TouchableOpacity 
                 onPress={()=> navigation.goBack()}
-                className="bg-yellow-400 p-2 rounded-tr-2xl rounded-bl-2xl ml-4"
+                className="bg-sky-200 p-2 rounded-tr-2xl rounded-bl-2xl ml-4"
             >
                 <ArrowLeftIcon size="20" color="black" />
             </TouchableOpacity>
@@ -45,9 +45,7 @@ export default function SignUpScreen() {
             <Text className="text-gray-700 ml-4">Full Name</Text>
             <TextInput
                 className="p-4 bg-gray-100 text-gray-700 rounded-2xl mb-3"
-                value=" "
                 placeholder='Enter Name'
-                selection={{ start: 0 }}
             />
             <Text className="text-gray-700 ml-4">Email Address</Text>
             <TextInput
@@ -58,14 +56,14 @@ export default function SignUpScreen() {
             />
             <Text className="text-gray-700 ml-4">Password</Text>
             <TextInput
-                className="p-4 bg-gray-100 text-gray-700 rounded-2xl mb-7"
-                secureTextEntry
+                className="p-4 bg-gray-100 text-gray-700 rounded-2xl mb-3"
+                secureTextEntry={true}
                 value={password}
-                onChangeText={value=> setPassword(password)}
+                onChangeText={value=> setPassword(value)}
                 placeholder='Enter Password'
             />
             <TouchableOpacity
-                className="py-3 bg-yellow-400 rounded-xl"
+                className="py-3 bg-sky-200 rounded-xl"
                 onPress={handleSubmit}
             >
                 <Text className="font-xl font-bold text-center text-gray-700">
@@ -92,8 +90,8 @@ export default function SignUpScreen() {
         </View>
         <View className="flex-row justify-center mt-7">
             <Text className="text-gray-500 font-semibold">Already have an account?</Text>
-            <TouchableOpacity onPress={()=> navigation.navigate('Login')}>
-                <Text className="font-semibold text-yellow-500"> Login</Text>
+            <TouchableOpacity className="bg-sky-100 rounded-2xl" onPress={()=> navigation.navigate('Login')}>
+                <Text className="font-semibold text-sky-300">  Login  </Text>
             </TouchableOpacity>
         </View>
       </View>
