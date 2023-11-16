@@ -61,7 +61,7 @@ export default function HomeScreen() {
                     Selected Category: {selectedCategory}
                 </Text>
             </View>
-            
+
 
             <TouchableOpacity
                 onPress={handleLogout}
