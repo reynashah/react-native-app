@@ -13,12 +13,14 @@ export default function FlashcardScreen() {
     {
       id: 2,
       question: "What is React Native?",
-      answer: "A framework that allows you to create native mobile applications using JavaScript and React",
+      answer:
+        "A framework that allows you to create native mobile applications using JavaScript and React",
     },
     {
       id: 3,
       question: "What is Expo?",
-      answer: "A tool that simplifies the development process of React Native apps by providing a set of pre-built features and services",
+      answer:
+        "A tool that simplifies the development process of React Native apps by providing a set of pre-built features and services",
     },
   ]);
   return (
@@ -37,4 +39,4 @@ export default function FlashcardScreen() {
       />
     </View>
   );
-};
+}
