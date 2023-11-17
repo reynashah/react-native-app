@@ -2,11 +2,15 @@ import React, { useState } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { ArrowLeftIcon } from "react-native-heroicons/solid";
 import { signOut } from "firebase/auth";
 import { auth } from "../config/firebase";
 import { themeColors } from "../theme";
+import { useNavigation } from "@react-navigation/native";
 
 export default function HomeScreen() {
+  const navigation = useNavigation();
+
   const [selectedLanguage, setSelectedLanguage] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
 
@@ -19,10 +23,19 @@ export default function HomeScreen() {
       className="flex-1"
       style={{ backgroundColor: themeColors.bg }}
     >
-      <Text className="text-white font-bold text-4xl text-center p-4">
+      <TouchableOpacity
+        style={{ width: 80, height: 40 }}
+        onPress={handleLogout}
+        className="bg-red-400 p-1 rounded-tr-2xl rounded-bl-2xl ml-4"
+      >
+        <Text className="text-white text-lg font-bold text-center">
+          Logout
+        </Text>
+      </TouchableOpacity>
+      <Text className="text-white font-bold text-5xl text-center mb-2">
         Home
       </Text>
-      <View className="p-4">
+      <View className="mt-1">
         <Text className="text-white font-bold text-2xl text-center ">
           Select Language:
         </Text>
@@ -32,11 +45,7 @@ export default function HomeScreen() {
           onValueChange={(itemValue) => setSelectedLanguage(itemValue)}
           className="p-2 bg-gray-200 rounded-md text-sky-200"
         >
-          <Picker.Item
-            className="text-sky-200"
-            label="English"
-            value="en"
-          />
+          <Picker.Item className="text-sky-200" label="English" value="en" />
           <Picker.Item label="Spanish" value="es" />
           {/* decide on language list */}
         </Picker>
@@ -70,14 +79,12 @@ export default function HomeScreen() {
           Selected Category: {selectedCategory}
         </Text>
       </View>
-
       <TouchableOpacity
-        onPress={handleLogout}
-        className="bg-red-400 rounded-lg"
+        onPress={() => navigation.navigate("Flashcards")}
+        className="py-3 bg-sky-200 mx-7  mt-7 rounded-xl"
       >
-        <Text className="text-white text-lg font-bold text-center">
-          {" "}
-          Logout{" "}
+        <Text className="text-xl font-bold text-center my-1 text-gray-700">
+          Begin Flashcards
         </Text>
       </TouchableOpacity>
     </SafeAreaView>
