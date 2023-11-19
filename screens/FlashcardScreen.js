@@ -50,17 +50,18 @@ import {meetOrSliceTypes as columnData} from "react-native-svg/src/lib/extract/e
 
 
                     const encodedParams = new URLSearchParams();
-                    encodedParams.set('from', 'auto');
-                    encodedParams.set('to', selectedLanguage);
-                    encodedParams.set('text', 'hi');
+                    encodedParams.set('source', 'en');
+                    encodedParams.set('target', selectedLanguage);
+                    encodedParams.set('q', 'hi');
 
                         const translationOptions = {
                             method: 'POST',
                             url: 'https://google-translate113.p.rapidapi.com/api/v1/translator/text',
                             headers: {
                                 'content-type': 'application/x-www-form-urlencoded',
+                                'Accept-Encoding': 'application/gzip',
                                 'X-RapidAPI-Key': 'd91ce7b3f7msh313280bd0d06458p152029jsn550691186239',
-                                'X-RapidAPI-Host': 'google-translate113.p.rapidapi.com'
+                                'X-RapidAPI-Host': 'google-translate1.p.rapidapi.com'
                             },
                             data: encodedParams,
                         };
