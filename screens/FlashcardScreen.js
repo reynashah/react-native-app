@@ -26,7 +26,7 @@ import {meetOrSliceTypes as columnData} from "react-native-svg/src/lib/extract/e
                     const spreadsheetId = '1McERX5s1nByAEfhE77cHjjN8gGfubll2392Vc89ruys';
                     const apiKey = 'AIzaSyDEkwJzYvpLc1j30yMsLExNNZLwVbs4Y-o';
                     const sheetName = 'Sheet1';
-                    const columnLetter = 'B';
+                    const columnLetter = selectedCategory;
                     const sheetsApiEndpoint = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${sheetName}!${columnLetter}:${columnLetter}?key=${apiKey}`;
 
                     const response = await axios.get(sheetsApiEndpoint);

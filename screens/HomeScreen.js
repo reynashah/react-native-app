@@ -65,14 +65,14 @@ export default function HomeScreen() {
         >
           <Picker.Item label="--Select A Category--" value=" " />
 
-          <Picker.Item label="Basic Vocabulary" value="basic" />
-          <Picker.Item label="Family Members" value="family" />
-          <Picker.Item label="Food" value="food" />
-          <Picker.Item label="Common Phrases" value="phrases" />
-          <Picker.Item label="Animals" value="animals" />
-          <Picker.Item label="Colors" value="colors" />
-          <Picker.Item label="Verbs" value="verbs" />
-          <Picker.Item label="Emotions" value="emotions" />
+          <Picker.Item label="Basic Vocabulary" value="B" />
+          <Picker.Item label="Family Members" value="C" />
+          <Picker.Item label="Food" value="D" />
+          <Picker.Item label="Common Phrases" value="E" />
+          <Picker.Item label="Animals" value="F" />
+          <Picker.Item label="Colors" value="G" />
+          <Picker.Item label="Verbs" value="H" />
+          <Picker.Item label="Emotions" value="I" />
         </Picker>
       </View>
 
