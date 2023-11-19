@@ -45,8 +45,11 @@ export default function HomeScreen() {
           onValueChange={(itemValue) => setSelectedLanguage(itemValue)}
           className="p-2 bg-gray-200 rounded-md text-sky-200"
         >
+          <Picker.Item label="--Select A Language--" value=" " />
           <Picker.Item className="text-sky-200" label="English" value="en" />
           <Picker.Item label="Spanish" value="es" />
+
+
           {/* decide on language list */}
         </Picker>
       </View>
@@ -60,6 +63,8 @@ export default function HomeScreen() {
           onValueChange={(itemValue) => setSelectedCategory(itemValue)}
           className="p-2 bg-gray-200 rounded-md"
         >
+          <Picker.Item label="--Select A Category--" value=" " />
+
           <Picker.Item label="Basic Vocabulary" value="basic" />
           <Picker.Item label="Family Members" value="family" />
           <Picker.Item label="Food" value="food" />
@@ -80,7 +85,8 @@ export default function HomeScreen() {
         </Text>
       </View>
       <TouchableOpacity
-        onPress={() => navigation.navigate("Flashcards")}
+        onPress={() => navigation.navigate("Flashcards",{ selectedLanguage,
+            selectedCategory})}
         className="py-3 bg-sky-200 mx-7  mt-7 rounded-xl"
       >
         <Text className="text-xl font-bold text-center my-1 text-gray-700">

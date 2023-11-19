@@ -7,11 +7,11 @@ export default Flashcard = ({ flashcard }) => {
   return (
     <FlipCard className="flex-1" flipHorizontal flipVertical>
       {/* Front side */}
-      <Card classname="bg-sky-200 rounded-xl">
+      <Card classname="bg-sky-800 rounded-xl">
         <Text className="text-emerald-800 font-bold text-lg">{flashcard.question}</Text>
       </Card>
       {/* Back side */}
-      <Card classname="bg-sky-200 rounded-xl">
+      <Card classname="bg-sky-800 rounded-xl">
         <Text className="text-emerald-800 font-bold text-lg">{flashcard.answer}</Text>
       </Card>
     </FlipCard>
