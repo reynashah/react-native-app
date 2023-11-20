@@ -78,10 +78,10 @@ export default function HomeScreen() {
       </View>
 
       <View className="mt-8">
-        <Text className="text-white font-bold text-2xl text-center ">
+        <Text className="text-white font-bold text-base text-center ">
           Selected Language: {selectedLanguage}
         </Text>
-        <Text className="text-white font-bold text-2xl text-center ">
+        <Text className="text-white font-bold text-base text-center ">
           Selected Category: {selectedCategory}
         </Text>
       </View>
