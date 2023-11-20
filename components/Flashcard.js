@@ -16,14 +16,14 @@ const Flashcard = ({ flashcard }) => {
       useNativeDriver={false}
     >
       {/* Front side */}
-      <Card containerStyle={{ backgroundColor: "#87CEFA", borderRadius: 10 }}>
+      <Card containerStyle={{ backgroundColor: "#bae6fd", borderRadius: 10 }}>
         <Text style={{ color: "#006400", fontWeight: "bold", fontSize: 16 }}>
           {flashcard.question}
         </Text>
       </Card>
 
       {/* Back side */}
-      <Card containerStyle={{ backgroundColor: "#87CEFA", borderRadius: 10 }}>
+      <Card containerStyle={{ backgroundColor: "#7dd3fc", borderRadius: 10 }}>
         <Text style={{ color: "#006400", fontWeight: "bold", fontSize: 16 }}>
           {flashcard.answer}
         </Text>
