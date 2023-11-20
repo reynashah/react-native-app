@@ -27,9 +27,7 @@ export default function HomeScreen() {
         onPress={handleLogout}
         className="bg-red-400 p-1 rounded-tr-2xl rounded-bl-2xl ml-4"
       >
-        <Text className="text-white text-lg font-bold text-center">
-          Logout
-        </Text>
+        <Text className="text-white text-lg font-bold text-center">Logout</Text>
       </TouchableOpacity>
       <Text className="text-white font-bold text-5xl text-center mb-2">
         Home
@@ -51,11 +49,7 @@ export default function HomeScreen() {
           <Picker.Item label="Chinese" value="zh" />
           <Picker.Item label="Hindi" value="hi" />
           <Picker.Item label="Korean" value="ko" />
-
           <Picker.Item label="Russian" value="ru" />
-
-
-
 
           {/* decide on language list */}
         </Picker>
@@ -84,16 +78,20 @@ export default function HomeScreen() {
       </View>
 
       <View className="mt-8">
-        <Text className="text-white font-bold text-2xl text-center ">
+        <Text className="text-white font-bold text-base text-center ">
           Selected Language: {selectedLanguage}
         </Text>
-        <Text className="text-white font-bold text-2xl text-center ">
+        <Text className="text-white font-bold text-base text-center ">
           Selected Category: {selectedCategory}
         </Text>
       </View>
       <TouchableOpacity
-        onPress={() => navigation.navigate("Flashcards",{ selectedLanguage,
-          selectedCategory})}
+        onPress={() =>
+          navigation.navigate("Flashcards", {
+            selectedLanguage,
+            selectedCategory,
+          })
+        }
         className="py-3 bg-sky-200 mx-7  mt-7 rounded-xl"
       >
         <Text className="text-xl font-bold text-center my-1 text-gray-700">

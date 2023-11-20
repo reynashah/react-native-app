@@ -7,8 +7,7 @@ import { useNavigation } from "@react-navigation/native";
 import { themeColors } from "../theme";
 import axios from "axios"; // Import axios for API requests
 import jsonData from "../components/words";
-import queryString from 'query-string';
-
+import queryString from "query-string";
 
 const FlashcardScreen = ({ route }) => {
   const { selectedLanguage, selectedCategory } = route.params;
@@ -47,6 +46,7 @@ const FlashcardScreen = ({ route }) => {
     };
 
     try {
+
       if (Array.isArray(text)) {
         // Handle an array of texts for translation
         return Promise.all(text.map(translateSingleText));
@@ -54,15 +54,17 @@ const FlashcardScreen = ({ route }) => {
         // Handle a single text for translation
         return translateSingleText(text);
       }
+
     } catch (error) {
-      console.error('Translation error:', error);
+      console.error("Translation error:", error);
       throw error;
     }
   };
 
-
   // Find the selected category in the JSON data
-  const selectedCategoryData = jsonData.categories.find(category => category.name === selectedCategory);
+  const selectedCategoryData = jsonData.categories.find(
+    (category) => category.name === selectedCategory
+  );
 
 // Initialize flashcards state with translated words
   const [flashcards, setFlashcards] = useState([]);
@@ -88,45 +90,45 @@ const FlashcardScreen = ({ route }) => {
     };
 
     translateFlashcards();
+
   }, [selectedCategoryData, selectedLanguage]);
 
   return (
-      <SafeAreaView
-          className="flex-1"
-          style={{ backgroundColor: themeColors.bg }}
-      >
-        <View className="flex-1 flex my-2">
-          <View className="flex-row justify-start">
-            <TouchableOpacity
-                style={{ width: 36, height: 40 }}
-                onPress={() => navigation.goBack()}
-                className="bg-sky-200 p-2 rounded-tr-2xl rounded-bl-2xl ml-4"
-            >
-              <ArrowLeftIcon size="20" color="black" />
-            </TouchableOpacity>
-            <View className="flex-row justify-center mt-5">
-              <Text className="text-white font-bold text-5xl mb-4 text-center">
-                {"   "}Flashcards{" "}
-              </Text>
-              <Image
-                  source={require("../assets/images/lightbulb.png")}
-                  style={{ width: 42, height: 42 }}
-              />
-            </View>
-          </View>
-
-          <View className="flex-row justify-start">
-            <FlatList
-
-                numColumns={2}
-                data={flashcards}
-                keyExtractor={(item) => item.id.toString()}
-                renderItem={({ item }) => <Flashcard flashcard={item} />}
+    <SafeAreaView
+      className="flex-1"
+      style={{ backgroundColor: themeColors.bg }}
+    >
+      <View className="flex-1 flex my-2">
+        <View className="flex-row justify-start">
+          <TouchableOpacity
+            style={{ width: 36, height: 40 }}
+            onPress={() => navigation.goBack()}
+            className="bg-sky-200 p-2 rounded-tr-2xl rounded-bl-2xl ml-4"
+          >
+            <ArrowLeftIcon size="20" color="black" />
+          </TouchableOpacity>
+          <View className="flex-row justify-center mt-5">
+            <Text className="text-white font-bold text-5xl mb-4 text-center">
+              {"   "}Flashcards{" "}
+            </Text>
+            <Image
+              source={require("../assets/images/lightbulb.png")}
+              style={{ width: 42, height: 42 }}
             />
           </View>
         </View>
-      </SafeAreaView>
+
+        <View className="flex-row justify-start">
+          <FlatList
+            numColumns={2}
+            data={flashcards}
+            keyExtractor={(item) => item.id.toString()}
+            renderItem={({ item }) => <Flashcard flashcard={item} />}
+          />
+        </View>
+      </View>
+    </SafeAreaView>
   );
-}
+};
 
 export default FlashcardScreen;
