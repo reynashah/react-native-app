@@ -44,7 +44,7 @@ export default function HomeScreen() {
           onValueChange={(itemValue) => setSelectedLanguage(itemValue)}
           className="p-2 bg-gray-200 rounded-md text-sky-200"
         >
-          <Picker.Item label="--Select A Language" value="es" />
+          <Picker.Item label="--Select A Language--" value="es" />
 
           <Picker.Item className="text-sky-200" label="French" value="fr" />
           <Picker.Item label="Spanish" value="es" />
