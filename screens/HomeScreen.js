@@ -27,9 +27,7 @@ export default function HomeScreen() {
         onPress={handleLogout}
         className="bg-red-400 p-1 rounded-tr-2xl rounded-bl-2xl ml-4"
       >
-        <Text className="text-white text-lg font-bold text-center">
-          Logout
-        </Text>
+        <Text className="text-white text-lg font-bold text-center">Logout</Text>
       </TouchableOpacity>
       <Text className="text-white font-bold text-5xl text-center mb-2">
         Home
@@ -44,10 +42,14 @@ export default function HomeScreen() {
           onValueChange={(itemValue) => setSelectedLanguage(itemValue)}
           className="p-2 bg-gray-200 rounded-md text-sky-200"
         >
-          <Picker.Item label="--Select A Language--" value=" " />
-          <Picker.Item className="text-sky-200" label="English" value="en" />
-          <Picker.Item label="Spanish" value="es" />
+          <Picker.Item label="--Select A Language--" value="es" />
 
+          <Picker.Item className="text-sky-200" label="French" value="fr" />
+          <Picker.Item label="Spanish" value="es" />
+          <Picker.Item label="Chinese" value="zh" />
+          <Picker.Item label="Hindi" value="hi" />
+          <Picker.Item label="Korean" value="ko" />
+          <Picker.Item label="Russian" value="ru" />
 
           {/* decide on language list */}
         </Picker>
@@ -62,30 +64,34 @@ export default function HomeScreen() {
           onValueChange={(itemValue) => setSelectedCategory(itemValue)}
           className="p-2 bg-gray-200 rounded-md"
         >
-          <Picker.Item label="--Select A Category--" value=" " />
+          <Picker.Item label="--Select A Category--" value="Basic" />
 
-          <Picker.Item label="Basic Vocabulary" value="B" />
-          <Picker.Item label="Family Members" value="C" />
-          <Picker.Item label="Food" value="D" />
-          <Picker.Item label="Common Phrases" value="E" />
-          <Picker.Item label="Animals" value="F" />
-          <Picker.Item label="Colors" value="G" />
-          <Picker.Item label="Verbs" value="H" />
-          <Picker.Item label="Emotions" value="I" />
+          <Picker.Item label="Basic Vocabulary" value="Basic" />
+          <Picker.Item label="Family Members" value="Family" />
+          <Picker.Item label="Food" value="Food" />
+          <Picker.Item label="Common Phrases" value="Phrases" />
+          <Picker.Item label="Animals" value="Animals" />
+          <Picker.Item label="Colors" value="Colors" />
+          <Picker.Item label="Verbs" value="Verbs" />
+          <Picker.Item label="Emotions" value="Emotions" />
         </Picker>
       </View>
 
       <View className="mt-8">
-        <Text className="text-white font-bold text-2xl text-center ">
+        <Text className="text-white font-bold text-base text-center ">
           Selected Language: {selectedLanguage}
         </Text>
-        <Text className="text-white font-bold text-2xl text-center ">
+        <Text className="text-white font-bold text-base text-center ">
           Selected Category: {selectedCategory}
         </Text>
       </View>
       <TouchableOpacity
-        onPress={() => navigation.navigate("Flashcards",{ selectedLanguage,
-            selectedCategory})}
+        onPress={() =>
+          navigation.navigate("Flashcards", {
+            selectedLanguage,
+            selectedCategory,
+          })
+        }
         className="py-3 bg-sky-200 mx-7  mt-7 rounded-xl"
       >
         <Text className="text-xl font-bold text-center my-1 text-gray-700">

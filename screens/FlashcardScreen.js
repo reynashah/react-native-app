@@ -5,125 +5,130 @@ import { ArrowLeftIcon } from "react-native-heroicons/solid";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import { themeColors } from "../theme";
-import axios from 'axios';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {meetOrSliceTypes as columnData} from "react-native-svg/src/lib/extract/extractViewBox";
+import axios from "axios"; // Import axios for API requests
+import jsonData from "../components/words";
+import queryString from "query-string";
 
+const FlashcardScreen = ({ route }) => {
+  const { selectedLanguage, selectedCategory } = route.params;
+  const navigation = useNavigation();
+  const translateText = async (text) => {
+    const apiKey = '526bb5e251msh7aa7fa5103b1bffp155249jsnf817a86771f2';
 
+    const translateSingleText = async (singleText) => {
+      const url = 'https://text-translator2.p.rapidapi.com/translate';
 
+      const formData = new FormData();
+      formData.append('source_language', 'en');
+      formData.append('target_language', selectedLanguage);
+      formData.append('text', singleText);
 
-    const FlashcardScreen = ({ route }) => {
-        const { selectedLanguage, selectedCategory } = route.params;
+      try {
+        const response = await axios.post(url, formData, {
+          headers: {
+            'content-type': 'multipart/form-data',
+            'X-RapidAPI-Key': apiKey,
+            'X-RapidAPI-Host': 'text-translator2.p.rapidapi.com',
+          },
+        });
 
-        const navigation = useNavigation();
-        const [flashcards, setFlashcards] = useState([]);
-        const [words, setWords] = useState([]);
+        console.log('API Response:', response.data);
 
+        if (response.data && response.data.status === 'success' && response.data.data && response.data.data.translatedText) {
+          return response.data.data.translatedText;
+        } else {
+          console.error('Invalid API Response:', response.data);
+          throw new Error('Invalid API response format');
+        }
+      } catch (error) {
+        throw error;
+      }
+    };
 
-        useEffect(() => {
-            const translateWord = async () => {
-                try {
-                    const spreadsheetId = '1McERX5s1nByAEfhE77cHjjN8gGfubll2392Vc89ruys';
-                    const apiKey = 'AIzaSyDEkwJzYvpLc1j30yMsLExNNZLwVbs4Y-o';
-                    const sheetName = 'Sheet1';
-                    const columnLetter = selectedCategory;
-                    const sheetsApiEndpoint = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${sheetName}!${columnLetter}:${columnLetter}?key=${apiKey}`;
+    try {
 
-                    const response = await axios.get(sheetsApiEndpoint);
-                    const columnData = response.data.values || [];
-                    const wordsFromColumn = columnData.slice(1).map((row) => row[0]);
+      if (Array.isArray(text)) {
+        // Handle an array of texts for translation
+        return Promise.all(text.map(translateSingleText));
+      } else {
+        // Handle a single text for translation
+        return translateSingleText(text);
+      }
 
+    } catch (error) {
+      console.error("Translation error:", error);
+      throw error;
+    }
+  };
 
-                    setWords(wordsFromColumn);
+  // Find the selected category in the JSON data
+  const selectedCategoryData = jsonData.categories.find(
+    (category) => category.name === selectedCategory
+  );
 
+// Initialize flashcards state with translated words
+  const [flashcards, setFlashcards] = useState([]);
 
+  useEffect(() => {
+    console.log("Selected Category:", selectedCategory);
+    console.log("JSON Data:", jsonData);
+    console.log(selectedCategory);
+    console.log("Selected Category Data:", selectedCategoryData);
 
+    const translateFlashcards = async () => {
+      if (selectedCategoryData) {
+        const translatedFlashcards = await Promise.all(selectedCategoryData.words.map(async (word, index) => {
+          const translatedWord = await translateText(word, selectedLanguage);
+          return {
+            id: index + 1, // Use a unique identifier (replace with a proper ID if needed)
+            question: word,
+            answer: translatedWord,
+          };
+        }));
+        setFlashcards(translatedFlashcards);
+      }
+    };
 
+    translateFlashcards();
 
+  }, [selectedCategoryData, selectedLanguage]);
 
+  return (
+    <SafeAreaView
+      className="flex-1"
+      style={{ backgroundColor: themeColors.bg }}
+    >
+      <View className="flex-1 flex my-2">
+        <View className="flex-row justify-start">
+          <TouchableOpacity
+            style={{ width: 36, height: 40 }}
+            onPress={() => navigation.goBack()}
+            className="bg-sky-200 p-2 rounded-tr-2xl rounded-bl-2xl ml-4"
+          >
+            <ArrowLeftIcon size="20" color="black" />
+          </TouchableOpacity>
+          <View className="flex-row justify-center mt-5">
+            <Text className="text-white font-bold text-5xl mb-4 text-center">
+              {"   "}Flashcards{" "}
+            </Text>
+            <Image
+              source={require("../assets/images/lightbulb.png")}
+              style={{ width: 42, height: 42 }}
+            />
+          </View>
+        </View>
 
-
-                    // Continue with translation and other logic...
-                        /* DO NOT DELETE
-                        works, but API has a small limit
-                        uncomment when presenting only*/
-
-
-                    const encodedParams = new URLSearchParams();
-                    encodedParams.set('source', 'en');
-                    encodedParams.set('target', selectedLanguage);
-                    encodedParams.set('q', 'hi');
-
-                        const translationOptions = {
-                            method: 'POST',
-                            url: 'https://google-translate113.p.rapidapi.com/api/v1/translator/text',
-                            headers: {
-                                'content-type': 'application/x-www-form-urlencoded',
-                                'Accept-Encoding': 'application/gzip',
-                                'X-RapidAPI-Key': 'd91ce7b3f7msh313280bd0d06458p152029jsn550691186239',
-                                'X-RapidAPI-Host': 'google-translate1.p.rapidapi.com'
-                            },
-                            data: encodedParams,
-                        };
-
-                        const translationResponse = await axios.request(translationOptions);
-                        const translatedWord = translationResponse.data.data.translations[0].translatedText;
-
-
-
-                    const flashcardData = wordsFromColumn.map((word, index) => ({
-                        id: index + 1,
-                        question: word,
-                        answer: translatedWord,
-                    }));
-
-                    setFlashcards(flashcardData);
-
-                } catch (error) {
-                    console.error(error);
-                }
-            };
-
-            translateWord();
-        }, []);
-
-    return (
-        <SafeAreaView
-            className="flex-1"
-            style={{backgroundColor: themeColors.bg}}
-        >
-            <View className="flex-1 flex my-2">
-                <View className="flex-row justify-start">
-                    <TouchableOpacity
-                        style={{width: 36, height: 40}}
-
-                        onPress={() => navigation.goBack()}
-                        className="bg-sky-200 p-2 rounded-tr-2xl rounded-bl-2xl ml-4"
-                    >
-                        <ArrowLeftIcon size="20" color="black"/>
-                    </TouchableOpacity>
-                    <View className="flex-row justify-center mt-5">
-                        <Text className="text-white font-bold text-5xl  mb-4 text-center">
-                            {"   "}Flashcards{" "}
-                        </Text>
-                        <Image
-                            source={require("../assets/images/lightbulb.png")}
-                            style={{width: 42, height: 42}}
-                        />
-                    </View>
-                </View>
-
-                <View className="flex-row justify-start">
-                    <FlatList
-                        numColumns={2}
-                        data={flashcards}
-                        keyExtractor={(item) => item.id.toString()}
-                        renderItem={({item}) => <Flashcard flashcard={item}/>}
-                    />
-                </View>
-            </View>
-        </SafeAreaView>
-    );
-}
+        <View className="flex-row justify-start">
+          <FlatList
+            numColumns={2}
+            data={flashcards}
+            keyExtractor={(item) => item.id.toString()}
+            renderItem={({ item }) => <Flashcard flashcard={item} />}
+          />
+        </View>
+      </View>
+    </SafeAreaView>
+  );
+};
 
 export default FlashcardScreen;

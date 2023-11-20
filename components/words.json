@@ -1,0 +1,36 @@
+{
+  "categories": [
+    {
+      "name": "Basic",
+      "words": ["Table", "Run", "Water", "Friend", "Book", "Sun", "House", "Food", "Open", "Red", "Door", "Tree", "Time", "Flower", "Music", "Ocean", "Color", "Family", "Day", "Street"]
+    },
+    {
+      "name": "Family",
+      "words": ["Mother", "Father", "Sister", "Brother", "Aunt", "Uncle", "Grandmother", "Grandfather", "Cousin", "Niece", "Nephew", "Daughter", "Son", "Husband", "Wife", "Stepbrother", "Stepsister", "Twins"]
+    },
+    {
+      "name": "Food",
+      "words": ["Pasta", "Chocolate", "Salad", "Pizza", "Banana", "Soup", "Sandwich", "Cheese", "Fish", "Rice", "Cake", "Broccoli", "Burger", "Orange", "Yogurt", "Bacon", "Ice cream", "Apple"]
+    },
+    {
+      "name": "Phrases",
+      "words": ["Hello, How are you?", "What's your name?", "Nice to meet you.", "Good morning!", "Good afternoon!", "Good evening!", "How's it going?", "Excuse me.", "I'm sorry.", "Thank you.", "You're welcome.", "Yes, please.", "No, thank you.", "I don't understand.", "Can you help me?", "Where is the restroom?", "How much does it cost?", "What time is it?", "See you later.", "Have a good day!"]
+    },
+    {
+      "name": "Animals",
+      "words": ["Dog", "Cat", "Bird", "Rabbit", "Elephant", "Lion", "Tiger", "Giraffe", "Monkey", "Horse", "Cow", "Pig", "Sheep", "Chicken", "Duck", "Bear", "Kangaroo", "Snake", "Dolphin", "Butterfly"]
+    },
+    {
+      "name": "Colors",
+      "words": ["Red", "Blue", "Yellow", "Green", "Orange", "Purple", "Pink", "Brown", "Black", "White", "Gray", "Gold", "Silver", "Indigo", "Maroon", "Cyan", "Beige", "Olive"]
+    },
+    {
+      "name": "Verbs",
+      "words": ["Go", "Run", "Eat", "Sleep", "Talk", "Listen", "Read", "Write", "Run", "Jump", "Dance", "Sing", "Play", "Work", "Drive", "Watch", "Cook", "Study", "Smile", "Laugh", "Love"]
+    },
+    {
+      "name": "Emotions",
+      "words": ["Happy", "Sad", "Angry", "Excited", "Bored", "Surprised", "Content", "Nervous", "Confused", "Frustrated", "Anxious", "Curious", "Grateful", "Enthusiastic", "Proud", "Relaxed", "Embarrassed", "Disappointed", "In love"]
+    }
+  ]
+}
