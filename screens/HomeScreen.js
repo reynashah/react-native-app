@@ -44,8 +44,19 @@ export default function HomeScreen() {
           onValueChange={(itemValue) => setSelectedLanguage(itemValue)}
           className="p-2 bg-gray-200 rounded-md text-sky-200"
         >
-          <Picker.Item className="text-sky-200" label="English" value="en" />
+          <Picker.Item label="--Select A Language" value="es" />
+
+          <Picker.Item className="text-sky-200" label="French" value="fr" />
           <Picker.Item label="Spanish" value="es" />
+          <Picker.Item label="Chinese" value="zh" />
+          <Picker.Item label="Hindi" value="hi" />
+          <Picker.Item label="Korean" value="ko" />
+
+          <Picker.Item label="Russian" value="ru" />
+
+
+
+
           {/* decide on language list */}
         </Picker>
       </View>
@@ -59,14 +70,16 @@ export default function HomeScreen() {
           onValueChange={(itemValue) => setSelectedCategory(itemValue)}
           className="p-2 bg-gray-200 rounded-md"
         >
-          <Picker.Item label="Basic Vocabulary" value="basic" />
-          <Picker.Item label="Family Members" value="family" />
-          <Picker.Item label="Food" value="food" />
-          <Picker.Item label="Common Phrases" value="phrases" />
-          <Picker.Item label="Animals" value="animals" />
-          <Picker.Item label="Colors" value="colors" />
-          <Picker.Item label="Verbs" value="verbs" />
-          <Picker.Item label="Emotions" value="emotions" />
+          <Picker.Item label="--Select A Category--" value="Basic" />
+
+          <Picker.Item label="Basic Vocabulary" value="Basic" />
+          <Picker.Item label="Family Members" value="Family" />
+          <Picker.Item label="Food" value="Food" />
+          <Picker.Item label="Common Phrases" value="Phrases" />
+          <Picker.Item label="Animals" value="Animals" />
+          <Picker.Item label="Colors" value="Colors" />
+          <Picker.Item label="Verbs" value="Verbs" />
+          <Picker.Item label="Emotions" value="Emotions" />
         </Picker>
       </View>
 
@@ -79,7 +92,8 @@ export default function HomeScreen() {
         </Text>
       </View>
       <TouchableOpacity
-        onPress={() => navigation.navigate("Flashcards")}
+        onPress={() => navigation.navigate("Flashcards",{ selectedLanguage,
+          selectedCategory})}
         className="py-3 bg-sky-200 mx-7  mt-7 rounded-xl"
       >
         <Text className="text-xl font-bold text-center my-1 text-gray-700">
