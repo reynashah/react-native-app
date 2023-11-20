@@ -44,8 +44,19 @@ export default function HomeScreen() {
           onValueChange={(itemValue) => setSelectedLanguage(itemValue)}
           className="p-2 bg-gray-200 rounded-md text-sky-200"
         >
-          <Picker.Item className="text-sky-200" label="English" value="en" />
+          <Picker.Item label="--Select A Language" value="es" />
+
+          <Picker.Item className="text-sky-200" label="French" value="fr" />
           <Picker.Item label="Spanish" value="es" />
+          <Picker.Item label="Chinese" value="zh" />
+          <Picker.Item label="Hindi" value="hi" />
+          <Picker.Item label="Korean" value="ko" />
+
+          <Picker.Item label="Russian" value="ru" />
+
+
+
+
           {/* decide on language list */}
         </Picker>
       </View>
@@ -59,6 +70,8 @@ export default function HomeScreen() {
           onValueChange={(itemValue) => setSelectedCategory(itemValue)}
           className="p-2 bg-gray-200 rounded-md"
         >
+          <Picker.Item label="--Select A Category--" value="Basic" />
+
           <Picker.Item label="Basic Vocabulary" value="Basic" />
           <Picker.Item label="Family Members" value="Family" />
           <Picker.Item label="Food" value="Food" />
