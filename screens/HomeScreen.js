@@ -16,14 +16,6 @@ export default function HomeScreen() {
   const handleLogout = async () => {
     await signOut(auth);
   };
-  const handleCategoryChange = (category) => {
-    setSelectedCategory(category);
-  };
-
-  const handleLanguageChange = (language) => {
-    setSelectedLanguage(language);
-  };
-
 
   return (
     <SafeAreaView
@@ -47,7 +39,7 @@ export default function HomeScreen() {
 
         <Picker
           selectedValue={selectedLanguage}
-          onValueChange={(itemValue) => handleLanguageChange({ label: itemValue, value: itemValue })}
+          onValueChange={(itemValue) => setSelectedLanguage(itemValue)}
           className="p-2 bg-gray-200 rounded-md text-sky-200"
         >
           <Picker.Item label="--Select A Language--" value="es" />
@@ -69,7 +61,7 @@ export default function HomeScreen() {
         </Text>
         <Picker
           selectedValue={selectedCategory}
-          onValueChange={(itemValue) => handleCategoryChange({ label: itemValue, value: itemValue })}
+          onValueChange={(itemValue) => setSelectedCategory(itemValue)}
           className="p-2 bg-gray-200 rounded-md"
         >
           <Picker.Item label="--Select A Category--" value="Basic" />
@@ -87,10 +79,10 @@ export default function HomeScreen() {
 
       <View className="mt-8">
         <Text className="text-white font-bold text-base text-center ">
-          Selected Language: {selectedLanguage.label}
+          Selected Language: {selectedLanguage}
         </Text>
         <Text className="text-white font-bold text-base text-center ">
-          Selected Category: {selectedCategory.label}
+          Selected Category: {selectedCategory}
         </Text>
       </View>
       <TouchableOpacity
