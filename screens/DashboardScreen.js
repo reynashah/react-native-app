@@ -13,31 +13,17 @@ export default function WelcomeScreen() {
     >
       <View className="flex-1 flex justify-around my-4">
         <Text className="text-white font-bold text-4xl text-center">
-          Welcome to Memorify!
+          Dashboard
         </Text>
-        <View className="flex-row justify-center">
-          <Image
-            source={require("../assets/images/languageicon.png")}
-            style={{ width: 350, height: 350 }}
-          />
-        </View>
         <View className="space-y-4">
           <TouchableOpacity
-            onPress={() => navigation.navigate("SignUp")}
+            onPress={() => navigation.navigate("Camera")}
             className="py-3 bg-sky-200 mx-7 rounded-xl"
           >
             <Text className="text-xl font-bold text-center text-gray-700">
-              Sign Up
+              Camera Translator
             </Text>
           </TouchableOpacity>
-          <View className="flex-row justify-center">
-            <Text className="text-white font-semibold">
-              Already have an account?
-            </Text>
-            <TouchableOpacity onPress={() => navigation.navigate("Login")}>
-              <Text className="font-semibold text-sky-200"> Log In</Text>
-            </TouchableOpacity>
-          </View>
         </View>
       </View>
     </SafeAreaView>
