@@ -4,7 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { themeColors } from "../theme";
 import { useNavigation } from "@react-navigation/native";
 
-export default function WelcomeScreen() {
+export default function DashboardScreen() {
   const navigation = useNavigation();
   return (
     <SafeAreaView
