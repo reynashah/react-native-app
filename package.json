@@ -11,11 +11,13 @@
   "dependencies": {
     "@expo/webpack-config": "^19.0.0",
     "@react-native-async-storage/async-storage": "1.18.2",
+    "@react-native-ml-kit/text-recognition": "^1.5.1",
     "@react-native-picker/picker": "2.4.10",
     "@react-navigation/native": "^6.1.9",
     "@react-navigation/native-stack": "^6.9.17",
     "axios": "^1.6.2",
     "expo": "~49.0.15",
+    "expo-camera": "~13.4.4",
     "expo-splash-screen": "~0.20.5",
     "expo-status-bar": "~1.6.0",
     "firebase": "^10.6.0",
@@ -27,9 +29,12 @@
     "react-native-elements": "^3.4.3",
     "react-native-flip-card": "^3.5.7",
     "react-native-heroicons": "^3.2.0",
+    "react-native-image-picker": "^5.7.0",
     "react-native-safe-area-context": "4.6.3",
     "react-native-svg": "13.9.0",
-    "react-native-web": "~0.19.6"
+    "react-native-vision-camera": "^3.9.0",
+    "react-native-web": "~0.19.6",
+    "expo-media-library": "~15.4.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

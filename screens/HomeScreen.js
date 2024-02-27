@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { Picker } from "@react-native-picker/picker";
+import { ArrowLeftIcon } from "react-native-heroicons/solid";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { signOut } from "firebase/auth";
 import { auth } from "../config/firebase";
@@ -22,13 +23,14 @@ export default function HomeScreen() {
       className="flex-1"
       style={{ backgroundColor: themeColors.bg }}
     >
-      <TouchableOpacity
-        style={{ width: 80, height: 40 }}
-        onPress={handleLogout}
-        className="bg-red-400 p-1 rounded-tr-2xl rounded-bl-2xl ml-4"
-      >
-        <Text className="text-white text-lg font-bold text-center">Logout</Text>
-      </TouchableOpacity>
+      <View className="flex-row justify-start">
+          <TouchableOpacity
+            onPress={() => navigation.goBack()}
+            className="bg-sky-200 p-2 rounded-tr-2xl rounded-bl-2xl ml-4"
+          >
+            <ArrowLeftIcon size="20" color="black" />
+          </TouchableOpacity>
+        </View>
       <Text className="text-white font-bold text-5xl text-center mb-2">
         Home
       </Text>

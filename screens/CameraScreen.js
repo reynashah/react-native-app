@@ -1,31 +1,200 @@
-import { View, Text, Image, TouchableOpacity } from "react-native";
-import React, { useState, useEffect } from "react";
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  ScrollView,
+  StatusBar,
+  StyleSheet,
+  useColorScheme,
+} from "react-native";
+import { ArrowLeftIcon } from "react-native-heroicons/solid";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { themeColors } from "../theme";
 import { useNavigation } from "@react-navigation/native";
+import TextRecognition from "@react-native-ml-kit/text-recognition";
+import React, { useState, useEffect, useRef } from 'react';
+import Constants from 'expo-constants';
+import { Camera, CameraType } from 'expo-camera';
+import * as MediaLibrary from 'expo-media-library';
+import { MaterialIcons } from '@expo/vector-icons';
+import Button from '../components/Button';
 
 export default function CameraScreen() {
   const navigation = useNavigation();
+
+ 
+  const [hasCameraPermission, setHasCameraPermission] = useState(null);
+  const [image, setImage] = useState(null);
+  const [type, setType] = useState(Camera.Constants.Type.back);
+  const [flash, setFlash] = useState(Camera.Constants.FlashMode.off);
+  const cameraRef = useRef(null);
+
+  useEffect(() => {
+    (async () => {
+      MediaLibrary.requestPermissionsAsync();
+      const cameraStatus = await Camera.requestCameraPermissionsAsync();
+      setHasCameraPermission(cameraStatus.status === 'granted');
+    })();
+  }, []);
+
+  const takePicture = async () => {
+    if (cameraRef) {
+      try {
+        const data = await cameraRef.current.takePictureAsync();
+        console.log(data);
+        setImage(data.uri);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
+  const savePicture = async () => {
+    if (image) {
+      try {
+        const asset = await MediaLibrary.createAssetAsync(image);
+        alert('Picture saved! 🎉');
+        setImage(null);
+        console.log('saved successfully');
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
+  if (hasCameraPermission === false) {
+    return <Text>No access to camera</Text>;
+  }
+
+  // const recognizeText = async () => {
+  //   if (image != "") {
+  //     const result = await TextRecognition.recognize(image);
+  //     if (result != undefined) {
+  //       setText(result.text);
+  //     }
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   recognizeText();
+  // }, [image]);
+
   return (
     <SafeAreaView
       className="flex-1"
       style={{ backgroundColor: themeColors.bg }}
     >
-      <View className="flex-1 flex justify-around my-4">
-        <Text className="text-white font-bold text-4xl text-center">
-          Dashboard
-        </Text>
-        <View className="space-y-4">
-          <TouchableOpacity
-            onPress={() => navigation.navigate("Dashboard")}
-            className="py-3 bg-sky-200 mx-7 rounded-xl"
-          >
-            <Text className="text-xl font-bold text-center text-gray-700">
-              Camera Translator
-            </Text>
-          </TouchableOpacity>
-        </View>
+      <View className="flex-row justify-start">
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          className="bg-sky-200 p-2 rounded-tr-2xl rounded-bl-2xl ml-4"
+        >
+          <ArrowLeftIcon size="20" color="black" />
+        </TouchableOpacity>
       </View>
+      <View>
+        <Text className="text-white font-bold text-4xl text-center p-2">
+          Camera
+        </Text>
+        <View className="space-y-4"></View>
+      </View>
+      <View style={styles.container}>
+      {!image ? (
+        <Camera
+          style={styles.camera}
+          type={type}
+          ref={cameraRef}
+          flashMode={flash}
+        >
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              paddingHorizontal: 30,
+            }}
+          >
+            <Button
+              title=""
+              icon="retweet"
+              onPress={() => {
+                setType(
+                  type === CameraType.back ? CameraType.front : CameraType.back
+                );
+              }}
+            />
+            <Button
+              onPress={() =>
+                setFlash(
+                  flash === Camera.Constants.FlashMode.off
+                    ? Camera.Constants.FlashMode.on
+                    : Camera.Constants.FlashMode.off
+                )
+              }
+              icon="flash"
+              color={flash === Camera.Constants.FlashMode.off ? 'gray' : '#fff'}
+            />
+          </View>
+        </Camera>
+      ) : (
+        <Image source={{ uri: image }} style={styles.camera} />
+      )}
+
+      <View style={styles.controls}>
+        {image ? (
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              paddingHorizontal: 50,
+            }}
+          >
+            <Button
+              title="Re-take"
+              onPress={() => setImage(null)}
+              icon="retweet"
+            />
+            <Button title="Save" onPress={savePicture} icon="check" />
+          </View>
+        ) : (
+          <Button title="Take a picture" onPress={takePicture} icon="camera" />
+        )}
+      </View>
+    </View>
+
     </SafeAreaView>
   );
 }
+
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      justifyContent: 'center',
+      paddingTop: Constants.statusBarHeight,
+      backgroundColor: '#000',
+      padding: 8,
+    },
+    controls: {
+      flex: 0.5,
+    },
+    button: {
+      height: 40,
+      borderRadius: 6,
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    text: {
+      fontWeight: 'bold',
+      fontSize: 16,
+      color: '#E9730F',
+      marginLeft: 10,
+    },
+    camera: {
+      flex: 5,
+      borderRadius: 20,
+    },
+    topControls: {
+      flex: 1,
+    },
+  });

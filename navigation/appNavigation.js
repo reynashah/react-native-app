@@ -19,10 +19,10 @@ export default function AppNavigation() {
     if(user){
         return(
         <NavigationContainer>
-        <Stack.Navigator initialRouteName='Home'>
+        <Stack.Navigator initialRouteName='Dashboard'>
+        <Stack.Screen name="Dashboard" options={{headerShown: false}} component={DashboardScreen} />
           <Stack.Screen name="Home" options={{headerShown: false}} component={HomeScreen} />
           <Stack.Screen name="Flashcards" options={{headerShown: false}} component={FlashcardScreen} />
-          <Stack.Screen name="Dashboard" options={{headerShown: false}} component={DashboardScreen} />
           <Stack.Screen name="Camera" options={{headerShown: false}} component={CameraScreen} />
         </Stack.Navigator>
       </NavigationContainer>
