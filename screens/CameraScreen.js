@@ -22,13 +22,14 @@ import Button from '../components/Button';
 
 export default function CameraScreen() {
   const navigation = useNavigation();
-
  
   const [hasCameraPermission, setHasCameraPermission] = useState(null);
   const [image, setImage] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
   const [flash, setFlash] = useState(Camera.Constants.FlashMode.off);
   const cameraRef = useRef(null);
+  const [text, setText] = " ";
+
 
   useEffect(() => {
     (async () => {
@@ -68,8 +69,8 @@ export default function CameraScreen() {
   }
 
   // const recognizeText = async () => {
-  //   if (image != "") {
-  //     const result = await TextRecognition.recognize(image);
+    //if (image) {
+      //     const result = await TextRecognition.recognize(image);
   //     if (result != undefined) {
   //       setText(result.text);
   //     }
