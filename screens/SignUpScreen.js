@@ -8,17 +8,26 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../config/firebase";
 
 export default function SignUpScreen() {
-  const navigation = useNavigation();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [displayName, setDisplayName] = useState('');
 
-  const handleSubmit = async () => {
-    if (email && password) {
-      try {
-        await createUserWithEmailAndPassword(auth, email, password);
-      } catch (err) {
-        console.log("got error: ", err.message);
-      }
+  const signUp = async () => {
+    try {
+      // Create user with email and password
+      const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+
+      // Update user profile with display name
+      await auth.currentUser.updateProfile({
+        displayName: displayName
+      });
+
+      // User signup successful
+      console.log('User signed up successfully:', userCredential.user.uid);
+      Alert.alert('Success', 'User signed up successfully!');
+    } catch (error) {
+      console.error('Error signing up:', error.message);
+      Alert.alert('Error', 'Error signing up. Please try again.');
     }
   };
   return (
@@ -69,7 +78,7 @@ export default function SignUpScreen() {
           />
           <TouchableOpacity
             className="py-3 bg-sky-200 rounded-xl"
-            onPress={handleSubmit}
+            onPress={signUp}
           >
             <Text className="font-xl font-bold text-center text-gray-700">
               Sign Up
@@ -114,3 +123,4 @@ export default function SignUpScreen() {
     </View>
   );
 }
+
