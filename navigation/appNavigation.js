@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from '../screens/HomeScreen';
 import DashboardScreen from '../screens/DashboardScreen';
 import CameraScreen from '../screens/CameraScreen';
+import CameraResultScreen from '../screens/CameraResultScreen';
 import WelcomeScreen from '../screens/WelcomeScreen';
 import LoginScreen from '../screens/Loginscreen';
 import SignUpScreen from '../screens/SignUpScreen';
@@ -24,6 +25,7 @@ export default function AppNavigation() {
           <Stack.Screen name="Home" options={{headerShown: false}} component={HomeScreen} />
           <Stack.Screen name="Flashcards" options={{headerShown: false}} component={FlashcardScreen} />
           <Stack.Screen name="Camera" options={{headerShown: false}} component={CameraScreen} />
+          <Stack.Screen name="CameraResult" options={{headerShown: false}} component={CameraResultScreen} />
         </Stack.Navigator>
       </NavigationContainer>
         )

@@ -9,33 +9,34 @@ import {
   useColorScheme,
 } from "react-native";
 import { ArrowLeftIcon } from "react-native-heroicons/solid";
+import { Picker } from "@react-native-picker/picker";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { themeColors } from "../theme";
 import { useNavigation } from "@react-navigation/native";
 import TextRecognition from "@react-native-ml-kit/text-recognition";
-import React, { useState, useEffect, useRef } from 'react';
-import Constants from 'expo-constants';
-import { Camera, CameraType } from 'expo-camera';
-import * as MediaLibrary from 'expo-media-library';
-import { MaterialIcons } from '@expo/vector-icons';
-import Button from '../components/Button';
+import React, { useState, useEffect, useRef } from "react";
+import Constants from "expo-constants";
+import { Camera, CameraType } from "expo-camera";
+import * as MediaLibrary from "expo-media-library";
+import { MaterialIcons } from "@expo/vector-icons";
+import Button from "../components/Button";
 
 export default function CameraScreen() {
   const navigation = useNavigation();
- 
+
+  const [selectedLanguage, setSelectedLanguage] = useState("");
+  const [cameraText, setCameraText] = useState("");
   const [hasCameraPermission, setHasCameraPermission] = useState(null);
   const [image, setImage] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
   const [flash, setFlash] = useState(Camera.Constants.FlashMode.off);
   const cameraRef = useRef(null);
-  const [text, setText] = " ";
-
 
   useEffect(() => {
     (async () => {
       MediaLibrary.requestPermissionsAsync();
       const cameraStatus = await Camera.requestCameraPermissionsAsync();
-      setHasCameraPermission(cameraStatus.status === 'granted');
+      setHasCameraPermission(cameraStatus.status === "granted");
     })();
   }, []);
 
@@ -55,9 +56,9 @@ export default function CameraScreen() {
     if (image) {
       try {
         const asset = await MediaLibrary.createAssetAsync(image);
-        alert('Picture saved! 🎉');
+        //alert('Picture saved! 🎉');
         setImage(null);
-        console.log('saved successfully');
+        console.log("saved successfully");
       } catch (error) {
         console.log(error);
       }
@@ -68,18 +69,20 @@ export default function CameraScreen() {
     return <Text>No access to camera</Text>;
   }
 
-  // const recognizeText = async () => {
-    //if (image) {
-      //     const result = await TextRecognition.recognize(image);
-  //     if (result != undefined) {
-  //       setText(result.text);
-  //     }
-  //   }
-  // };
+  const recognizeText = async () => {
+  if (image) {
+      const result = await TextRecognition.recognize(image);
+      console.log(result);
+      console.log(result.text);
+      if (result != undefined) {
+        setCameraText(result.text);
+      }
+    }
+  };
 
-  // useEffect(() => {
-  //   recognizeText();
-  // }, [image]);
+  useEffect(() => {
+    recognizeText();
+  }, [image]);
 
   return (
     <SafeAreaView
@@ -100,102 +103,140 @@ export default function CameraScreen() {
         </Text>
         <View className="space-y-4"></View>
       </View>
-      <View style={styles.container}>
-      {!image ? (
-        <Camera
-          style={styles.camera}
-          type={type}
-          ref={cameraRef}
-          flashMode={flash}
+      <View className="mt-1">
+        <Text className="text-white font-bold text-2xl text-center ">
+          Translate Text to:
+        </Text>
+
+        <Picker
+          itemStyle={{ color: "white" }}
+          selectedValue={selectedLanguage}
+          onValueChange={(itemValue) => setSelectedLanguage(itemValue)}
+          className="bg-gray-200 rounded-md text-sky-200"
         >
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              paddingHorizontal: 30,
-            }}
-          >
-            <Button
-              title=""
-              icon="retweet"
-              onPress={() => {
-                setType(
-                  type === CameraType.back ? CameraType.front : CameraType.back
-                );
-              }}
-            />
-            <Button
-              onPress={() =>
-                setFlash(
-                  flash === Camera.Constants.FlashMode.off
-                    ? Camera.Constants.FlashMode.on
-                    : Camera.Constants.FlashMode.off
-                )
-              }
-              icon="flash"
-              color={flash === Camera.Constants.FlashMode.off ? 'gray' : '#fff'}
-            />
-          </View>
-        </Camera>
-      ) : (
-        <Image source={{ uri: image }} style={styles.camera} />
-      )}
+          <Picker.Item label="--Select Language--" value="en" />
 
-      <View style={styles.controls}>
-        {image ? (
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              paddingHorizontal: 50,
-            }}
-          >
-            <Button
-              title="Re-take"
-              onPress={() => setImage(null)}
-              icon="retweet"
-            />
-            <Button title="Save" onPress={savePicture} icon="check" />
-          </View>
-        ) : (
-          <Button title="Take a picture" onPress={takePicture} icon="camera" />
-        )}
+          <Picker.Item label="French" value="fr" />
+          <Picker.Item label="Spanish" value="es" />
+          <Picker.Item label="Chinese" value="zh" />
+          <Picker.Item label="Hindi" value="hi" />
+          <Picker.Item label="Korean" value="ko" />
+          <Picker.Item label="Russian" value="ru" />
+
+          {/* decide on language list */}
+        </Picker>
       </View>
-    </View>
+      <View style={styles.container}>
+        {!image ? (
+          <Camera
+            style={styles.camera}
+            type={type}
+            ref={cameraRef}
+            flashMode={flash}
+          >
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                paddingHorizontal: 30,
+              }}
+            >
+              <Button
+                title=""
+                icon="retweet"
+                onPress={() => {
+                  setType(
+                    type === CameraType.back
+                      ? CameraType.front
+                      : CameraType.back
+                  );
+                }}
+              />
+              <Button
+                onPress={() =>
+                  setFlash(
+                    flash === Camera.Constants.FlashMode.off
+                      ? Camera.Constants.FlashMode.on
+                      : Camera.Constants.FlashMode.off
+                  )
+                }
+                icon="flash"
+                color={
+                  flash === Camera.Constants.FlashMode.off ? "gray" : "#fff"
+                }
+              />
+            </View>
+          </Camera>
+        ) : (
+          <Image source={{ uri: image }} style={styles.camera} />
+        )}
 
+        <View style={styles.controls}>
+          {image ? (
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                paddingHorizontal: 50,
+              }}
+            >
+              <Button
+                title="Re-take"
+                onPress={() => setImage(null)}
+                icon="retweet"
+              />
+              <Button
+                title="Next"
+                onPress={() =>
+                  navigation.navigate("CameraResult", {
+                    selectedLanguage, cameraText
+                  })
+                }
+                icon="check"
+              />
+            </View>
+          ) : (
+            <Button
+              title="Take a picture"
+              onPress={takePicture}
+              icon="camera"
+            />
+          )}
+        </View>
+      </View>
     </SafeAreaView>
   );
 }
 
-  const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      justifyContent: 'center',
-      paddingTop: Constants.statusBarHeight,
-      backgroundColor: '#000',
-      padding: 8,
-    },
-    controls: {
-      flex: 0.5,
-    },
-    button: {
-      height: 40,
-      borderRadius: 6,
-      flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    text: {
-      fontWeight: 'bold',
-      fontSize: 16,
-      color: '#E9730F',
-      marginLeft: 10,
-    },
-    camera: {
-      flex: 5,
-      borderRadius: 20,
-    },
-    topControls: {
-      flex: 1,
-    },
-  });
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    paddingTop: Constants.statusBarHeight,
+    backgroundColor: "#000",
+    padding: 8,
+  },
+  controls: {
+    flex: 0.5,
+  },
+  button: {
+    height: 40,
+    borderRadius: 6,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  text: {
+    fontWeight: "bold",
+    fontSize: 16,
+    color: "#E9730F",
+    marginLeft: 10,
+  },
+  camera: {
+    flex: 5,
+    borderRadius: 20,
+  },
+  topControls: {
+    flex: 1,
+  },
+});
