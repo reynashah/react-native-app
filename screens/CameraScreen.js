@@ -9,11 +9,10 @@ import {
   useColorScheme,
 } from "react-native";
 import { ArrowLeftIcon } from "react-native-heroicons/solid";
-import { Picker } from "@react-native-picker/picker";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { themeColors } from "../theme";
 import { useNavigation } from "@react-navigation/native";
-import TextRecognition from "@react-native-ml-kit/text-recognition";
+import TextRecognition from "react-native-text-recognition";
 import React, { useState, useEffect, useRef } from "react";
 import Constants from "expo-constants";
 import { Camera, CameraType } from "expo-camera";
@@ -24,7 +23,7 @@ import Button from "../components/Button";
 export default function CameraScreen() {
   const navigation = useNavigation();
 
-  const [selectedLanguage, setSelectedLanguage] = useState("");
+  const [detectedLanguage, setDetectedLanguage] = useState("");
   const [cameraText, setCameraText] = useState("");
   const [hasCameraPermission, setHasCameraPermission] = useState(null);
   const [image, setImage] = useState(null);
@@ -45,11 +44,51 @@ export default function CameraScreen() {
       try {
         const data = await cameraRef.current.takePictureAsync();
         console.log(data);
+        console.log(data.uri);
+
+        performOCR(data);
         setImage(data.uri);
       } catch (error) {
         console.log(error);
       }
     }
+  };
+
+  const performOCR = (file) => {
+    console.log("APIIIII");
+    let myHeaders = new Headers();
+    myHeaders.append("apikey", "zBOot8842Hmojal9RoZd2UHeBoqXGEkM");
+    myHeaders.append("Content-Type", "multipart/form-data");
+
+    let raw = file;
+    let requestOptions = {
+      method: "POST",
+      redirect: "follow",
+      headers: myHeaders,
+      body: raw,
+    };
+
+    // Send a POST request to the OCR API
+    fetch("https://api.apilayer.com/image_to_text/upload", requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        // console.log(result);
+        // console.log(result["lang"]);
+        // console.log(result["all_text"]);
+
+        // console.log(JSON.stringify(result["all_text"]));
+        // console.log(JSON.stringify(result["lang"]));
+        // console.log(JSON.stringify(result["annotations"].join(" ")));
+
+
+        // Set the extracted text in state
+        const i = JSON.stringify(result["annotations"].join(" "));
+        const j = JSON.stringify(result["lang"]);
+        setCameraText(i);
+        setDetectedLanguage(j);
+      })
+      .catch((error) => console.log("error", error));
+
   };
 
   const savePicture = async () => {
@@ -70,19 +109,22 @@ export default function CameraScreen() {
   }
 
   const recognizeText = async () => {
-  if (image) {
-      const result = await TextRecognition.recognize(image);
-      console.log(result);
-      console.log(result.text);
-      if (result != undefined) {
-        setCameraText(result.text);
+    if (cameraText != null) {
+      try {
+        console.log("hi");
+
+        console.log(cameraText)
+        console.log(detectedLanguage)
+
+        navigation.navigate("CameraResult", {
+          cameraText,
+          detectedLanguage,
+        })
+      } catch (error) {
+        console.log(error);
       }
     }
   };
-
-  useEffect(() => {
-    recognizeText();
-  }, [image]);
 
   return (
     <SafeAreaView
@@ -102,29 +144,6 @@ export default function CameraScreen() {
           Camera
         </Text>
         <View className="space-y-4"></View>
-      </View>
-      <View className="mt-1">
-        <Text className="text-white font-bold text-2xl text-center ">
-          Translate Text to:
-        </Text>
-
-        <Picker
-          itemStyle={{ color: "white" }}
-          selectedValue={selectedLanguage}
-          onValueChange={(itemValue) => setSelectedLanguage(itemValue)}
-          className="bg-gray-200 rounded-md text-sky-200"
-        >
-          <Picker.Item label="--Select Language--" value="en" />
-
-          <Picker.Item label="French" value="fr" />
-          <Picker.Item label="Spanish" value="es" />
-          <Picker.Item label="Chinese" value="zh" />
-          <Picker.Item label="Hindi" value="hi" />
-          <Picker.Item label="Korean" value="ko" />
-          <Picker.Item label="Russian" value="ru" />
-
-          {/* decide on language list */}
-        </Picker>
       </View>
       <View style={styles.container}>
         {!image ? (
@@ -185,15 +204,7 @@ export default function CameraScreen() {
                 onPress={() => setImage(null)}
                 icon="retweet"
               />
-              <Button
-                title="Next"
-                onPress={() =>
-                  navigation.navigate("CameraResult", {
-                    selectedLanguage, cameraText
-                  })
-                }
-                icon="check"
-              />
+              <Button title="Next" onPress={recognizeText} icon="check" />
             </View>
           ) : (
             <Button
