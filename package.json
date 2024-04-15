@@ -14,11 +14,13 @@
     "@react-native-async-storage/async-storage": "1.18.2",
     "@react-native-ml-kit/text-recognition": "^1.5.1",
     "@react-native-picker/picker": "2.4.10",
+    "@react-navigation/bottom-tabs": "^6.5.20",
     "@react-navigation/native": "^6.1.9",
     "@react-navigation/native-stack": "^6.9.17",
     "axios": "^1.6.2",
     "expo": "~49.0.15",
     "expo-camera": "~13.4.4",
+    "expo-dev-client": "~2.4.13",
     "expo-media-library": "~15.4.1",
     "expo-splash-screen": "~0.20.5",
     "expo-status-bar": "~1.6.0",
@@ -41,8 +43,7 @@
     "react-native-web": "~0.19.6",
     "rn-nodeify": "^10.3.0",
     "standard": "^17.1.0",
-    "stream": "^0.0.2",
-    "expo-dev-client": "~2.4.13"
+    "stream": "^0.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

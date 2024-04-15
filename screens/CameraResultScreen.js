@@ -101,7 +101,7 @@ const CameraResultScreen = ({ route }) => {
           >
             <ArrowLeftIcon size="20" color="black" />
           </TouchableOpacity>
-        <Text className="text-white font-bold text-4xl text-center">
+        <Text className="text-white font-bold text-3xl text-center">
           Text Detected:
         </Text>
         <Text className="text-white text-lg text-center">
@@ -172,4 +172,3 @@ const CameraResultScreen = ({ route }) => {
 };
 
 export default CameraResultScreen;
-

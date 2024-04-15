@@ -8,7 +8,7 @@ import { useNavigation } from "@react-navigation/native";
 import { ArrowLeftIcon } from "react-native-heroicons/solid";
 
 
-export default function DashboardScreen() {
+export default function ActivityScreen() {
   const navigation = useNavigation();
 
   const handleLogout = async () => {
@@ -29,15 +29,15 @@ export default function DashboardScreen() {
       </TouchableOpacity>
       <View className="flex-1 flex justify-around my-4">
         <Text className="text-white font-bold text-4xl text-center">
-          Dashboard
+          Activity
         </Text>
-        {/* <View className="space-y-4">
+        <View className="space-y-4">
           <TouchableOpacity
-            onPress={() => navigation.navigate("Camera")}
+            onPress={() => navigation.navigate("CardMatch")}
             className="py-3 bg-sky-200 mx-7 rounded-xl"
           >
             <Text className="text-xl font-bold text-center text-gray-700">
-              Camera Translator
+              Matching Cards
             </Text>
           </TouchableOpacity>
 
@@ -49,7 +49,7 @@ export default function DashboardScreen() {
               Flashcards
             </Text>
           </TouchableOpacity>
-        </View> */}
+        </View>
       </View>
     </SafeAreaView>
   );

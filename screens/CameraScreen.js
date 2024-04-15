@@ -228,7 +228,7 @@ const styles = StyleSheet.create({
     padding: 8,
   },
   controls: {
-    flex: 0.5,
+    flex: .7,
   },
   button: {
     height: 40,
