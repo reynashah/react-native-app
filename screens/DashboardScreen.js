@@ -5,6 +5,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {themeColors} from "../theme";
 import { Card } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
+import { initializeAuth, getReactNativePersistence } from 'firebase/auth';
+import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
+const auth = initializeAuth(app, {
+    persistence: getReactNativePersistence(ReactNativeAsyncStorage)
+});
 
 
 
@@ -12,7 +17,7 @@ const DashboardScreen = () => {
     const navigation = useNavigation();
 
     const navigateToHome = () => {
-        navigation.navigate('Home'); // Navigate to the 'Home' screen
+        navigation.navigate('Home');
     };
 
     const [className, setClassName] = useState('');
@@ -22,6 +27,8 @@ const DashboardScreen = () => {
 
     useEffect(() => {
         loadJoinedClassrooms();
+
+
     }, []);
 
     const loadJoinedClassrooms = async () => {
@@ -59,8 +66,9 @@ const DashboardScreen = () => {
         setJoinedClassrooms(updatedClassrooms);
         saveJoinedClassrooms(updatedClassrooms);
 
-        setClassName(''); // Clear input after successful creation
-        setErrorMessage(''); // Clear any previous error messages
+        setClassName('');
+        setErrorMessage('');
+
     };
 
     const joinClassroom = () => {
@@ -69,7 +77,9 @@ const DashboardScreen = () => {
             return;
         }
 
-        const existingClassroom = joinedClassrooms.find(item => item.classCode == classCode);
+
+
+        const existingClassroom = joinedClassrooms.find(item => item.classCode === classCode);
         if (existingClassroom) {
             setClassCode('');
             setErrorMessage('');
@@ -80,7 +90,7 @@ const DashboardScreen = () => {
     };
   return (
       <SafeAreaView style={{ flex: 1, backgroundColor: themeColors.bg }}>
-          <View style={{ color: 'white', fontSize: 16, fontWeight: 'bold', textAlign: 'center' }}>
+          <View style={{ color: 'white', textAlign: 'center', fontSize: 16, fontWeight: 'bold' }}>
               <Button title="Go to Home" onPress={navigateToHome} />
           </View>
         <TouchableOpacity
