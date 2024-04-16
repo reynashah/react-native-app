@@ -6,8 +6,32 @@ import { auth } from '../config/firebase.js';
 import {useNavigation} from "@react-navigation/native";
 import AssignmentScreen from "../screens/AssignmentScreen";
 
-import {themeColors} from "../theme"; // Assuming your Firebase initialization is in a file named 'firebase.js'
+import {themeColors} from "../theme";
+import {Picker} from "@react-native-picker/picker"; // Assuming your Firebase initialization is in a file named 'firebase.js'
 
+const BoxPicker = ({ options, selectedValue, onValueChange }) => {
+    return (
+        <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+            {options.map((option, index) => (
+                <TouchableOpacity
+                    key={index}
+                    style={{
+                        backgroundColor: selectedValue === option.value ? '#10B981' : '#f0f0f0',
+                        padding: 10,
+                        borderRadius: 5,
+                        marginRight: 10,
+                        marginBottom: 10,
+                        justifyContent: 'center',
+                        alignItems: 'center'
+                    }}
+                    onPress={() => onValueChange(option.value)}
+                >
+                    <Text style={{ color: selectedValue === option.value ? '#ffffff' : '#000000' }}>{option.label}</Text>
+                </TouchableOpacity>
+            ))}
+        </View>
+    );
+};
 export default function ClassroomScreen() {
     const navigation = useNavigation();
     const [classrooms, setClassrooms] = useState([]);
@@ -15,6 +39,8 @@ export default function ClassroomScreen() {
     const [joinCode, setJoinCode] = useState('');
     const [isJoinModalVisible, setIsJoinModalVisible] = useState(false);
     const [isCreateModalVisible, setIsCreateModalVisible] = useState(false);
+    const [selectedLanguage, setSelectedLanguage] = useState('en'); // Default language is english
+
 
 
     const toggleJoinModal = () => {
@@ -68,17 +94,14 @@ export default function ClassroomScreen() {
         const db = getFirestore();
         const classroomCollection = collection(db, 'classrooms');
         const code = generateUniqueCode();
-        const newClassroom = { name: className, code: code, creator: auth.currentUser.uid, language: "ru" };
+        const newClassroom = { name: className, code: code, creator: auth.currentUser.uid,  language: selectedLanguage };
         try {
             await addDoc(classroomCollection, newClassroom);
             setClassName('');
             setIsCreateModalVisible(false); // Close the create class modal after creating
-
         } catch (error) {
             console.error('Error creating classroom:', error);
         }
-        toggleCreateModal();
-
     };
 
     const joinClassroom = async (code) => {
@@ -114,9 +137,10 @@ export default function ClassroomScreen() {
                 console.error('Error joining classroom:', error);
                 alert('An error occurred while joining the classroom. Please try again later.');
             });
-        toggleJoinModal();
-
     };
+    useEffect(() => {
+        fetchClassrooms();
+    }, [isCreateModalVisible]);
 
     const renderItem = ({ item }) => (
         <TouchableOpacity onPress={() => navigation.navigate("Assignment", { classData: item })}>
@@ -139,7 +163,7 @@ export default function ClassroomScreen() {
         <SafeAreaView style={{ flex: 1, backgroundColor:  themeColors.bg }}>
             <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', paddingVertical: 20 }}>
                 <TouchableOpacity
-                    onPress={createClassroom}
+                    onPress={toggleCreateModal}
                     style={{ backgroundColor: '#3e588d', padding: 10, borderRadius: 10 }}
                 >
                     <Text style={{ color: '#ffffff', fontWeight: 'bold', fontSize: 16, textAlign: 'center' }}>Create Class</Text>
@@ -157,14 +181,34 @@ export default function ClassroomScreen() {
                 keyExtractor={(item) => item.id.toString()}
             />
 
+
             {/* Modal for Join Class */}
             <Modal
                 animationType="slide"
                 transparent={true}
                 visible={isJoinModalVisible}
-                onRequestClose={toggleJoinModal}
             >
-                {/* Your join class modal content */}
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
+                    <View style={{ backgroundColor: '#ffffff', padding: 20, borderRadius: 10, width: '80%' }}>
+                        <Text style={{ color: '#000000', fontWeight: 'bold', fontSize: 16, textAlign: 'center', marginBottom: 10 }}>Enter the code to join the class</Text>
+                        <TextInput
+                            placeholder="Enter Code"
+                            value={joinCode}
+                            onChangeText={setJoinCode}
+                            style={{ backgroundColor: '#f0f0f0', padding: 10, borderRadius: 5, marginBottom: 10 }}
+                        />
+                        <TouchableOpacity
+                            onPress={() => {
+                                joinClassroom(joinCode); // Call the function to join the class with the entered code
+                                setIsJoinModalVisible(false); // Close the modal after joining
+                                setJoinCode(''); // Clear the input field after joining
+                            }}
+                            style={{ backgroundColor: '#10B981', padding: 10, borderRadius: 10 }}
+                        >
+                            <Text style={{ color: '#ffffff', fontWeight: 'bold', fontSize: 16, textAlign: 'center' }}>Join Class</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
             </Modal>
 
             {/* Modal for Create Class */}
@@ -172,16 +216,30 @@ export default function ClassroomScreen() {
                 animationType="slide"
                 transparent={true}
                 visible={isCreateModalVisible}
-                onRequestClose={toggleCreateModal}
+                onRequestClose={createClassroom}
             >
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
-                    <View style={{ backgroundColor: '#ffffff', padding: 20, borderRadius: 10, width: '80%' }}>
+                    <View style={{ backgroundColor: '#ffffff', padding: 20, borderRadius: 10, width: '80%', maxHeight: '80%' }}>
                         <Text style={{ color: '#000000', fontWeight: 'bold', fontSize: 16, textAlign: 'center', marginBottom: 10 }}>Enter the name for class</Text>
                         <TextInput
                             placeholder="Class Name"
                             value={className}
                             onChangeText={setClassName}
                             style={{ backgroundColor: '#f0f0f0', padding: 10, borderRadius: 5, marginBottom: 10 }}
+                        />
+                        <BoxPicker
+                            options={[
+                                { label: 'Spanish', value: 'es' },
+                                { label: 'Russian', value: 'ru' },
+                                { label:"French", value:"fr" },
+                                    { label:"Spanish", value:"es" },
+                                        { label: "Chinese", value:"zh" },
+                                            { label:"Hindi", value:"hi" },
+                                                { label:"Korean", value:"ko" }
+                                // Add more languages as needed
+                            ]}
+                            selectedValue={selectedLanguage}
+                            onValueChange={setSelectedLanguage}
                         />
                         <TouchableOpacity
                             onPress={() => {
