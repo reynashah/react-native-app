@@ -48,7 +48,7 @@ const AppNavigation = () => {
                     }}>
                     <Tab.Screen
                         name="Home"
-                        component={ClassroomScreen}
+                        component={AssignmentScreen}
                         options={{
                             tabBarIcon: ({ focused }) => (
                                 <View style={{ alignItems: 'center', justifyContent: 'center' }}>
