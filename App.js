@@ -1,6 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { LogBox } from 'react-native';
 import AppNavigation from './navigation/appNavigation';
+import 'expo-dev-client';
 
 // import { NavigationContainer } from '@react-navigation/native';
 // import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -11,6 +13,9 @@ import AppNavigation from './navigation/appNavigation';
 
 
 export default function App() {
+
+  LogBox.ignoreAllLogs(); //Ignore all log notifications
+
   return (
     <AppNavigation />
   );

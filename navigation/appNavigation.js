@@ -53,7 +53,7 @@ export default function AppNavigation() {
                  return (
                    <View style={{alignItems: "center", justifyContent: "center"}}> 
                      <Entypo name="home" size={24} color={focused ? "#16247d": "#111"} />
-                     <Text style={{fonSize: 12, color: "#16247d"}}>HOME</Text>
+                     <Text style={{fontSize: 12, color: "#16247d"}}>HOME</Text>
                </View>
                  )
                }
@@ -67,7 +67,7 @@ export default function AppNavigation() {
                  return (
                    <View style={{alignItems: "center", justifyContent: "center"}}> 
                     <Entypo name="wallet" size={24} color={focused ? "#16247d": "#111"} />
-                     <Text style={{fonSize: 12, color: "#16247d"}}>CAMERA</Text>
+                     <Text style={{fontSize: 12, color: "#16247d"}}>CAMERA</Text>
                </View>
                  )
                }
@@ -81,7 +81,7 @@ export default function AppNavigation() {
                  return (
                    <View style={{alignItems: "center", justifyContent: "center"}}> 
                     <MaterialIcons name="stacked-line-chart" size={24} color={focused ? "#16247d": "#111"} />
-                     <Text style={{fonSize: 12, color: "#16247d"}}>ACTIVITY</Text>
+                     <Text style={{fontSize: 12, color: "#16247d"}}>ACTIVITY</Text>
                </View>
                  )
                }
@@ -95,7 +95,7 @@ export default function AppNavigation() {
                  return (
                    <View style={{alignItems: "center", justifyContent: "center"}}> 
                     <Ionicons name="settings" size={24}  color={focused ? "#16247d": "#111"} />
-                     <Text style={{fonSize: 12, color: "#16247d"}}>PROFILE</Text>
+                     <Text style={{fontSize: 12, color: "#16247d"}}>PROFILE</Text>
                </View>
                  )
                }
