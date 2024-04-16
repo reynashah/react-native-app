@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from '../screens/HomeScreen';
-import ClassroomScreen from "../screens/ClassroomScreen";
 import CameraScreen from '../screens/CameraScreen';
 import CameraResultScreen from '../screens/CameraResultScreen';
 import WelcomeScreen from '../screens/WelcomeScreen';
@@ -14,13 +13,14 @@ import FlashcardScreen from '../screens/FlashcardScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import CardMatchScreen from '../screens/CardMatchScreen';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import {ClassroomScreenNavigator, CameraScreenNavigator, ActivityScreenNavigator, ProfileScreenNavigator} from './customNavigation'
+import {DashScreenNavigator, CameraScreenNavigator, ActivityScreenNavigator, ProfileScreenNavigator} from './customNavigation'
 import { Entypo } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
-import AssignmentScreen from "../screens/AssignmentScreen";
 import ActivityScreen from "../screens/ActivityScreen";
+import ClassroomScreen from "../screens/ClassroomScreen";
+
 
 
 
@@ -38,6 +38,7 @@ const screenOptions = {
         background: "#fff"
     }
 }
+
 
 const Stack = createNativeStackNavigator();
 
@@ -114,12 +115,6 @@ export default function AppNavigation() {
                     <Stack.Screen name="Welcome" options={{headerShown: false}} component={WelcomeScreen}/>
                     <Stack.Screen name="Login" options={{headerShown: false}} component={LoginScreen}/>
                     <Stack.Screen name="SignUp" options={{headerShown: false}} component={SignUpScreen}/>
-                    <Stack.Screen name="Classroom" options={{headerShown: false}} component={ClassroomScreen}/>
-                    <Stack.Screen name="Assignment" options={{headerShown: false}} component={AssignmentScreen}/>
-                    <Stack.Screen name="Flashcards" options={{headerShown: false}} component={FlashcardScreen}/>
-                    <Stack.Screen name="CardMatch" options={{headerShown: false}} component={CardMatchScreen}/>
-                    <Stack.Screen name="Home" options={{headerShown: false}} component={HomeScreen}/>
-
 
                 </Stack.Navigator>
             </NavigationContainer>

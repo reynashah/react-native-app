@@ -119,7 +119,7 @@ export default function ClassroomScreen() {
     };
 
     const renderItem = ({ item }) => (
-        <TouchableOpacity onPress={() => navigation.navigate('Assignments', { classData: item })}>
+        <TouchableOpacity onPress={() => navigation.navigate("Assignment", { classData: item })}>
 
         <View style={{ backgroundColor: '#ffffff', margin: 10, padding: 20, borderRadius: 10 }}>
             <Text style={{ color: '#4B5563', fontWeight: 'bold', fontSize: 20 }}>Name: {item.name}</Text>

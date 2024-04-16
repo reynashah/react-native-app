@@ -15,49 +15,6 @@ import AssignmentScreen from "../screens/AssignmentScreen";
 
 const Stack = createNativeStackNavigator();
 
-const AssignmentScreenNavigator = () => {
-    return (
-        <Stack.Navigator initialRouteName="Assignments">
-            <Stack.Screen
-                name="Classroom"
-                options={{ headerShown: false }}
-                component={ClassroomScreen}
-            />
-            <Stack.Screen
-                name="Home"
-                options={{ headerShown: false }}
-                component={HomeScreen}
-            />
-            <Stack.Screen
-                name="Flashcards"
-                options={{ headerShown: false }}
-                component={FlashcardScreen}
-            />
-            <Stack.Screen
-                name="Camera"
-                options={{ headerShown: false }}
-                component={CameraScreen}
-            />
-            <Stack.Screen
-                name="CameraResult"
-                options={{ headerShown: false }}
-                component={CameraResultScreen}
-            />
-            <Stack.Screen
-                name="Profile"
-                options={{ headerShown: false }}
-                component={ProfileScreen}
-            />
-            <Stack.Screen
-                name="CardMatch"
-                options={{ headerShown: false }}
-                component={CardMatchScreen}
-            />
-        </Stack.Navigator>
-    );
-};
-export { AssignmentScreenNavigator };
-
 
 const ClassroomScreenNavigator = () => {
     return (
@@ -70,9 +27,9 @@ const ClassroomScreenNavigator = () => {
             <Stack.Screen
                 name="Assignment"
                 options={{ headerShown: false }}
-                component={AssignmentScreenNavigator}
+                component={AssignmentScreen}
             />
-      <Stack.Screen
+            <Stack.Screen
         name="Flashcards"
         options={{ headerShown: false }}
         component={HomeScreen}
@@ -193,6 +150,55 @@ const CameraScreenNavigator = () => {
     );
   };
   export { ActivityScreenNavigator };
+
+const AssignmentsScreenNavigator = () => {
+    return (
+        <Stack.Navigator initialRouteName="Assignment">
+            <Stack.Screen
+                name="Assignment"
+                options={{ headerShown: false }}
+                component={AssignmentScreen}
+            />
+
+            <Stack.Screen
+                name="Activity"
+                options={{ headerShown: false }}
+                component={ActivityScreen}
+            />
+            <Stack.Screen
+                name="Home"
+                options={{ headerShown: false }}
+                component={HomeScreen}
+            />
+            <Stack.Screen
+                name="Flashcards"
+                options={{ headerShown: false }}
+                component={FlashcardScreen}
+            />
+            <Stack.Screen
+                name="Camera"
+                options={{ headerShown: false }}
+                component={CameraScreen}
+            />
+            <Stack.Screen
+                name="CameraResult"
+                options={{ headerShown: false }}
+                component={CameraResultScreen}
+            />
+            <Stack.Screen
+                name="Profile"
+                options={{ headerShown: false }}
+                component={ProfileScreen}
+            />
+            <Stack.Screen
+                name="CardMatch"
+                options={{ headerShown: false }}
+                component={CardMatchScreen}
+            />
+        </Stack.Navigator>
+    );
+};
+export { AssignmentsScreenNavigator };
 
   const ProfileScreenNavigator = () => {
     return (
