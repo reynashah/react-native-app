@@ -4,6 +4,8 @@ import {View, TextInput, Button, FlatList, TouchableOpacity, SafeAreaView, Text,
 import { getFirestore, collection, addDoc, query, where, getDocs, doc, setDoc } from 'firebase/firestore';
 import { auth } from '../config/firebase.js';
 import {useNavigation} from "@react-navigation/native";
+import AssignmentScreen from "../screens/AssignmentScreen";
+
 import {themeColors} from "../theme"; // Assuming your Firebase initialization is in a file named 'firebase.js'
 
 export default function ClassroomScreen() {
@@ -117,7 +119,7 @@ export default function ClassroomScreen() {
     };
 
     const renderItem = ({ item }) => (
-        <TouchableOpacity onPress={() => navigation.navigate('AssignmentScreen', { classData: item })}>
+        <TouchableOpacity onPress={() => navigation.navigate('Assignments', { classData: item })}>
 
         <View style={{ backgroundColor: '#ffffff', margin: 10, padding: 20, borderRadius: 10 }}>
             <Text style={{ color: '#4B5563', fontWeight: 'bold', fontSize: 20 }}>Name: {item.name}</Text>

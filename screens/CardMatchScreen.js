@@ -1,138 +1,147 @@
-// work on this now
-
 import React, { useState, useEffect } from "react";
-import { View, FlatList, Text, Image, TouchableOpacity } from "react-native";
-import Flashcard from "../components/Flashcard";
-import { ArrowLeftIcon } from "react-native-heroicons/solid";
+import { View, Text, TouchableOpacity, FlatList, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useNavigation } from "@react-navigation/native";
 import { themeColors } from "../theme";
-import axios from "axios"; // Import axios for API requests
 import jsonData from "../components/words";
-import queryString from "query-string";
+import shuffle from "lodash/shuffle"; // Import lodash shuffle for shuffling words
 
 const CardMatchScreen = ({ route }) => {
   const { selectedLanguage, selectedCategory } = route.params;
-  const navigation = useNavigation();
-  const translateText = async (text) => {
-    const apiKey = '526bb5e251msh7aa7fa5103b1bffp155249jsnf817a86771f2';
 
-    const translateSingleText = async (singleText) => {
-      const url = 'https://text-translator2.p.rapidapi.com/translate';
+  const [words, setWords] = useState([]);
+  const [translations, setTranslations] = useState([]);
+  const [selectedWords, setSelectedWords] = useState([]);
+  const [score, setScore] = useState(0);
 
-      const formData = new FormData();
-      formData.append('source_language', 'en');
-      formData.append('target_language', selectedLanguage);
-      formData.append('text', singleText);
 
-      try {
-        const response = await axios.post(url, formData, {
-          headers: {
-            'content-type': 'multipart/form-data',
-            'X-RapidAPI-Key': apiKey,
-            'X-RapidAPI-Host': 'text-translator2.p.rapidapi.com',
-          },
-        });
 
-        console.log('API Response:', response.data);
+  useEffect(() => {
+    const selectedCategoryData = jsonData.categories.find(
+        (category) => category.name === selectedCategory
+    );
 
-        if (response.data && response.data.status === 'success' && response.data.data && response.data.data.translatedText) {
-          return response.data.data.translatedText;
-        } else {
-          console.error('Invalid API Response:', response.data);
-          throw new Error('Invalid API response format');
-        }
-      } catch (error) {
-        throw error;
-      }
-    };
+    if (selectedCategoryData) {
+      // Shuffle the words and select the first 5
+      const shuffledWords = shuffle(selectedCategoryData.words).slice(0, 5);
+      setWords(shuffledWords);
+
+      // Translate the selected words
+      translateWords(shuffledWords);
+    }
+  }, [selectedCategory, selectedLanguage]);
+
+  const translateWords = async (words) => {
+    const apiKey = 'YOUR_API_KEY'; // Replace with your API key
+    const apiUrl = 'https://api.cognitive.microsofttranslator.com/translate';
 
     try {
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Ocp-Apim-Subscription-Key': apiKey,
+          'Ocp-Apim-Subscription-Region': 'YOUR_REGION', // Replace with your region
+        },
+        body: JSON.stringify({
+          texts: words.map((word) => ({ text: word })),
+          from: 'en',
+          to: selectedLanguage,
+        }),
+      });
 
-      if (Array.isArray(text)) {
-        // Handle an array of texts for translation
-        return Promise.all(text.map(translateSingleText));
-      } else {
-        // Handle a single text for translation
-        return translateSingleText(text);
-      }
-
+      const data = await response.json();
+      const translatedWords = data.map((item) => item.translations[0].text);
+      setTranslations(translatedWords);
     } catch (error) {
-      console.error("Translation error:", error);
-      throw error;
+      console.error('Translation error:', error);
     }
   };
 
-  // Find the selected category in the JSON data
-  const selectedCategoryData = jsonData.categories.find(
-    (category) => category.name === selectedCategory
-  );
+  const handleWordPress = (word, translation) => {
+    if (selectedWords.length < 2 && !selectedWords.includes(word)) {
+      setSelectedWords([...selectedWords, { word, translation }]);
+    }
 
-// Initialize flashcards state with translated words
-  const [flashcards, setFlashcards] = useState([]);
-
-  useEffect(() => {
-    console.log("Selected Category:", selectedCategory);
-    console.log("JSON Data:", jsonData);
-    console.log(selectedCategory);
-    console.log("Selected Category Data:", selectedCategoryData);
-
-    const translateFlashcards = async () => {
-      if (selectedCategoryData) {
-        const translatedFlashcards = await Promise.all(selectedCategoryData.words.map(async (word, index) => {
-          const translatedWord = await translateText(word, selectedLanguage);
-          return {
-            id: index + 1, // Use a unique identifier (replace with a proper ID if needed)
-            //change values here so the front of each card is blank
-            //there are double the amount of cards so the question and answer are on different cards
-            question: word,
-            answer: translatedWord,
-          };
-        }));
-        setFlashcards(translatedFlashcards);
+    if (selectedWords.length === 1 && !selectedWords.includes(word)) {
+      // Check if translations match
+      if (selectedWords[0].translation === translation) {
+        setScore(score + 1);
+        setSelectedWords([]);
+        removeSelectedWords(word);
+      } else {
+        setTimeout(() => {
+          setSelectedWords([]);
+        }, 1000);
       }
-    };
+    }
+  };
 
-    translateFlashcards();
+  const removeSelectedWords = (word) => {
+    const updatedWords = words.filter((item) => item !== word);
+    setWords(updatedWords);
 
-  }, [selectedCategoryData, selectedLanguage]);
+    const updatedTranslations = translations.filter(
+        (item) => item.word !== word.translation
+    );
+    setTranslations(updatedTranslations);
+  };
 
   return (
-    <SafeAreaView
-      className="flex-1"
-      style={{ backgroundColor: themeColors.bg }}
-    >
-      <View className="flex-1 flex my-2">
-        <View className="flex-row justify-start">
-          <TouchableOpacity
-            style={{ width: 36, height: 40 }}
-            onPress={() => navigation.goBack()}
-            className="bg-sky-200 p-2 rounded-tr-2xl rounded-bl-2xl ml-4"
-          >
-            <ArrowLeftIcon size="20" color="black" />
-          </TouchableOpacity>
-          <View className="flex-row justify-center mt-5">
-            <Text className="text-white font-bold text-5xl mb-4 text-center">
-              {"   "}Flashcards{" "}
-            </Text>
-            <Image
-              source={require("../assets/images/lightbulb.png")}
-              style={{ width: 42, height: 42 }}
-            />
-          </View>
-        </View>
-
-        <View className="flex-row justify-start">
+      <SafeAreaView style={{ flex: 1, backgroundColor: themeColors.bg }}>
+        <View style={{ flex: 1 }}>
+          <Text style={{ alignSelf: 'flex-end', marginRight: 10 }}>
+            Score: {score}
+          </Text>
           <FlatList
-            numColumns={2}
-            data={flashcards}
-            //randomize order of cards fort matching
-            keyExtractor={(item) => item.id.toString()}
-            renderItem={({ item }) => <Flashcard flashcard={item} />}
+              data={words}
+              numColumns={5}
+              keyExtractor={(item) => item}
+              renderItem={({ item, index }) => (
+                  <TouchableOpacity
+                      style={{
+                        flex: 1,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        margin: 5,
+                        backgroundColor: selectedWords.find((word) => word === item)
+                            ? 'gray'
+                            : 'lightgray',
+                        height: 50,
+                        borderRadius: 5,
+                      }}
+                      onPress={() => handleWordPress(item, translations[index])}
+                  >
+                    <Text>{item}</Text>
+                  </TouchableOpacity>
+              )}
+          />
+          <FlatList
+              data={translations}
+              numColumns={5}
+              keyExtractor={(item) => item}
+              renderItem={({ item }) => (
+                  <TouchableOpacity
+                      style={{
+                        flex: 1,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        margin: 5,
+                        backgroundColor: selectedWords.find(
+                            (word) => word.translation === item
+                        )
+                            ? 'gray'
+                            : 'lightgray',
+                        height: 50,
+                        borderRadius: 5,
+                      }}
+                      onPress={() => handleWordPress(item.translation, item.word)}
+                  >
+                    <Text>{item}</Text>
+                  </TouchableOpacity>
+              )}
           />
         </View>
-      </View>
-    </SafeAreaView>
+      </SafeAreaView>
   );
 };
 

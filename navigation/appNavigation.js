@@ -1,4 +1,4 @@
-import { View, Text, Platform } from 'react-native';
+import { View, Text, Platform } from 'react-native'
 import React, { useState, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -13,20 +13,22 @@ import useAuth from '../hooks/useAuth';
 import FlashcardScreen from '../screens/FlashcardScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import CardMatchScreen from '../screens/CardMatchScreen';
-import AssignmentScreen from '../screens/AssignmentScreen'; // Import the AssignmentScreen component
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { ClassroomScreenNavigator, CameraScreenNavigator, ActivityScreenNavigator, ProfileScreenNavigator } from './customNavigation';
+import {ClassroomScreenNavigator, CameraScreenNavigator, ActivityScreenNavigator, ProfileScreenNavigator} from './customNavigation'
 import { Entypo } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
+import AssignmentScreen from "../screens/AssignmentScreen";
+import ActivityScreen from "../screens/ActivityScreen";
+
 
 
 const Tab = createBottomTabNavigator();
 const screenOptions = {
-    tabBarShowLabel: false,
-    headerShown: false,
-    tabBarStyle: {
+    tabBarShowLabel:false,
+    headerShown:false,
+    tabBarStyle:{
         position: "absolute",
         bottom: 0,
         right: 0,
@@ -39,9 +41,8 @@ const screenOptions = {
 
 const Stack = createNativeStackNavigator();
 
-
 export default function AppNavigation() {
-    const { user } = useAuth();
+    const {user} = useAuth();
     if (user) {
         return (
             <NavigationContainer>
@@ -50,11 +51,11 @@ export default function AppNavigation() {
                         name="Classrooms"
                         component={ClassroomScreen}
                         options={{
-                            tabBarIcon: ({ focused }) => {
+                            tabBarIcon: ({focused}) => {
                                 return (
-                                    <View style={{ alignItems: "center", justifyContent: "center" }}>
-                                        <Entypo name="home" size={24} color={focused ? "#16247d" : "#111"} />
-                                        <Text style={{ fontSize: 12, color: "#16247d" }}>HOME</Text>
+                                    <View style={{alignItems: "center", justifyContent: "center"}}>
+                                        <Entypo name="home" size={24} color={focused ? "#16247d" : "#111"}/>
+                                        <Text style={{fonSize: 12, color: "#16247d"}}>HOME</Text>
                                     </View>
                                 )
                             }
@@ -62,13 +63,13 @@ export default function AppNavigation() {
                     />
                     <Tab.Screen
                         name="Camera"
-                        component={CameraScreenNavigator}
+                        component={CameraScreen}
                         options={{
-                            tabBarIcon: ({ focused }) => {
+                            tabBarIcon: ({focused}) => {
                                 return (
-                                    <View style={{ alignItems: "center", justifyContent: "center" }}>
-                                        <Entypo name="wallet" size={24} color={focused ? "#16247d" : "#111"} />
-                                        <Text style={{ fontSize: 12, color: "#16247d" }}>CAMERA</Text>
+                                    <View style={{alignItems: "center", justifyContent: "center"}}>
+                                        <Entypo name="wallet" size={24} color={focused ? "#16247d" : "#111"}/>
+                                        <Text style={{fonSize: 12, color: "#16247d"}}>CAMERA</Text>
                                     </View>
                                 )
                             }
@@ -76,13 +77,14 @@ export default function AppNavigation() {
                     />
                     <Tab.Screen
                         name="Activity"
-                        component={ActivityScreenNavigator}
+                        component={ActivityScreen}
                         options={{
-                            tabBarIcon: ({ focused }) => {
+                            tabBarIcon: ({focused}) => {
                                 return (
-                                    <View style={{ alignItems: "center", justifyContent: "center" }}>
-                                        <MaterialIcons name="stacked-line-chart" size={24} color={focused ? "#16247d" : "#111"} />
-                                        <Text style={{ fontSize: 12, color: "#16247d" }}>ACTIVITY</Text>
+                                    <View style={{alignItems: "center", justifyContent: "center"}}>
+                                        <MaterialIcons name="stacked-line-chart" size={24}
+                                                       color={focused ? "#16247d" : "#111"}/>
+                                        <Text style={{fonSize: 12, color: "#16247d"}}>ACTIVITY</Text>
                                     </View>
                                 )
                             }
@@ -90,13 +92,13 @@ export default function AppNavigation() {
                     />
                     <Tab.Screen
                         name="Profile"
-                        component={ProfileScreenNavigator}
+                        component={ProfileScreen}
                         options={{
-                            tabBarIcon: ({ focused }) => {
+                            tabBarIcon: ({focused}) => {
                                 return (
-                                    <View style={{ alignItems: "center", justifyContent: "center" }}>
-                                        <Ionicons name="settings" size={24} color={focused ? "#16247d" : "#111"} />
-                                        <Text style={{ fontSize: 12, color: "#16247d" }}>PROFILE</Text>
+                                    <View style={{alignItems: "center", justifyContent: "center"}}>
+                                        <Ionicons name="settings" size={24} color={focused ? "#16247d" : "#111"}/>
+                                        <Text style={{fonSize: 12, color: "#16247d"}}>PROFILE</Text>
                                     </View>
                                 )
                             }
@@ -105,16 +107,20 @@ export default function AppNavigation() {
                 </Tab.Navigator>
             </NavigationContainer>
         )
-    }
-    else {
+    } else {
         return (
             <NavigationContainer>
                 <Stack.Navigator initialRouteName='Welcome'>
-                    <Stack.Screen name="Welcome" options={{ headerShown: false }} component={WelcomeScreen} />
-                    <Stack.Screen name="Login" options={{ headerShown: false }} component={LoginScreen} />
-                    <Stack.Screen name="SignUp" options={{ headerShown: false }} component={SignUpScreen} />
-                    <Stack.Screen name="Classroom" options={{ headerShown: false }} component={ClassroomScreen} />
-                    <Stack.Screen name="AssignmentScreen" component={AssignmentScreen} /> {/* Add AssignmentScreen to the stack */}
+                    <Stack.Screen name="Welcome" options={{headerShown: false}} component={WelcomeScreen}/>
+                    <Stack.Screen name="Login" options={{headerShown: false}} component={LoginScreen}/>
+                    <Stack.Screen name="SignUp" options={{headerShown: false}} component={SignUpScreen}/>
+                    <Stack.Screen name="Classroom" options={{headerShown: false}} component={ClassroomScreen}/>
+                    <Stack.Screen name="Assignment" options={{headerShown: false}} component={AssignmentScreen}/>
+                    <Stack.Screen name="Flashcards" options={{headerShown: false}} component={FlashcardScreen}/>
+                    <Stack.Screen name="CardMatch" options={{headerShown: false}} component={CardMatchScreen}/>
+                    <Stack.Screen name="Home" options={{headerShown: false}} component={HomeScreen}/>
+
+
                 </Stack.Navigator>
             </NavigationContainer>
         )
