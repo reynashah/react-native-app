@@ -68,7 +68,7 @@ export default function ClassroomScreen() {
         const db = getFirestore();
         const classroomCollection = collection(db, 'classrooms');
         const code = generateUniqueCode();
-        const newClassroom = { name: className, code: code, creator: auth.currentUser.uid };
+        const newClassroom = { name: className, code: code, creator: auth.currentUser.uid, language: "ru" };
         try {
             await addDoc(classroomCollection, newClassroom);
             setClassName('');
