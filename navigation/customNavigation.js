@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HomeScreen from "../screens/HomeScreen";
-import DashboardScreen from "../screens/DashboardScreen";
 import CameraScreen from "../screens/CameraScreen";
 import CameraResultScreen from "../screens/CameraResultScreen";
 import useAuth from "../hooks/useAuth";
@@ -11,16 +10,17 @@ import FlashcardScreen from "../screens/FlashcardScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import CardMatchScreen from "../screens/CardMatchScreen";
 import ActivityScreen from "../screens/ActivityScreen";
+import ClassroomScreen from "../screens/ClassroomScreen";
 
 const Stack = createNativeStackNavigator();
 
-const DashScreenNavigator = () => {
+const ClassroomScreenNavigator = () => {
   return (
-    <Stack.Navigator initialRouteName="Dashboard">
+    <Stack.Navigator initialRouteName="Classroom">
       <Stack.Screen
-        name="Dashboard"
+        name="Classroom"
         options={{ headerShown: false }}
-        component={DashboardScreen}
+        component={ClassroomScreen}
       />
       <Stack.Screen
         name="Home"
@@ -55,15 +55,15 @@ const DashScreenNavigator = () => {
     </Stack.Navigator>
   );
 };
-export { DashScreenNavigator };
+export { ClassroomScreenNavigator };
 
 const CameraScreenNavigator = () => {
     return (
       <Stack.Navigator initialRouteName="Camera">
         <Stack.Screen
-          name="Dashboard"
+          name="Classroom"
           options={{ headerShown: false }}
-          component={DashboardScreen}
+          component={ClassroomScreen}
         />
         <Stack.Screen
           name="Home"
@@ -103,6 +103,7 @@ const CameraScreenNavigator = () => {
   const ActivityScreenNavigator = () => {
     return (
       <Stack.Navigator initialRouteName="Activity">
+
         <Stack.Screen
         name="Activity"
         options={{ headerShown: false }}
