@@ -12,8 +12,8 @@ export default function WelcomeScreen() {
       style={{ backgroundColor: themeColors.bg }}
     >
       <View className="flex-1 flex justify-around my-4">
-        <Text className="text-white font-bold text-4xl text-center">
-          Welcome to Memorify!
+        <Text className="text-blue-900 font-bold text-4xl text-center">
+          Welcome to Linguify!
         </Text>
         <View className="flex-row justify-center">
           <Image
@@ -24,7 +24,7 @@ export default function WelcomeScreen() {
         <View className="space-y-4">
           <TouchableOpacity
             onPress={() => navigation.navigate("SignUp")}
-            className="py-3 bg-sky-200 mx-7 rounded-xl"
+            className="py-3 bg-blue-100 mx-7 rounded-xl"
           >
             <Text className="text-xl font-bold text-center text-gray-700">
               Sign Up
@@ -35,7 +35,7 @@ export default function WelcomeScreen() {
               Already have an account?
             </Text>
             <TouchableOpacity onPress={() => navigation.navigate("Login")}>
-              <Text className="font-semibold text-sky-200"> Log In</Text>
+              <Text className="font-semibold text-blue-900"> Log In</Text>
             </TouchableOpacity>
           </View>
         </View>

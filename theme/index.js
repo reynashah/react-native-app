@@ -1,3 +1,3 @@
 export const themeColors = {
-    bg: '#01667a',
+    bg: '#9d9fe0',
  }   

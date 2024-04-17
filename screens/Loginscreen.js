@@ -11,11 +11,18 @@ export default function LoginScreen() {
   const navigation = useNavigation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [uid, setUid] = useState(null); // State to store user UID
+
 
   const handleSubmit = async () => {
     if (email && password) {
       try {
-        await signInWithEmailAndPassword(auth, email, password);
+        // Sign in the user with email and password
+        const { user } = await signInWithEmailAndPassword(auth, email, password);
+        // Access the user's UID and update the state
+        if (user && user.uid) {
+          setUid(user.uid);
+        }
       } catch (err) {
         console.log("got error: ", err.message);
       }
@@ -67,6 +74,7 @@ export default function LoginScreen() {
           </TouchableOpacity>
           <TouchableOpacity
             onPress={handleSubmit}
+
             className="py-3 bg-sky-400 rounded-xl"
           >
             <Text className="text-xl font-bold text-center text-gray-700">
