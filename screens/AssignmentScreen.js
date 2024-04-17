@@ -50,7 +50,6 @@ const AssignmentScreen = () => {
             try {
                 const db = getFirestore();
                 const assignmentCollection = collection(db, 'assignments');
-                const querySnapshot = await getDocs(assignmentCollection);
                 const data = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
                 setAssignments(data);
             } catch (error) {
@@ -62,7 +61,6 @@ const AssignmentScreen = () => {
 
     const renderItem = ({ item }) => (
         <TouchableOpacity
-            //onPress={() => navigation.navigate("", { classData: item })}
             >
 
             <View style={{ backgroundColor: '#ffffff', margin: 10, padding: 20, borderRadius: 10 }}>
