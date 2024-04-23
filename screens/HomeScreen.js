@@ -87,18 +87,22 @@ export default function HomeScreen() {
           Selected Category: {selectedCategory}
         </Text>
       </View>
+
+
       <TouchableOpacity
-        onPress={() =>
-          navigation.navigate("Flashcards", {
-            selectedLanguage,
-            selectedCategory,
-          })
-        }
-        className="py-3 bg-sky-200 mx-7  mt-7 rounded-xl"
+          onPress={() =>
+              navigation.navigate("CardMatch", {
+                selectedLanguage,
+                selectedCategory,
+              })
+          }
+          className="py-3 bg-sky-200 mx-7  mt-7 rounded-xl"
       >
         <Text className="text-xl font-bold text-center my-1 text-gray-700">
-          Begin Flashcards
+          Begin Matching Cards
         </Text>
+
+
       </TouchableOpacity>
     </SafeAreaView>
   );

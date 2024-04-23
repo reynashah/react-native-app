@@ -99,6 +99,7 @@ export default function ClassroomScreen() {
             await addDoc(classroomCollection, newClassroom);
             setClassName('');
             setIsCreateModalVisible(false); // Close the create class modal after creating
+            //await joinClassroom(code);
         } catch (error) {
             console.error('Error creating classroom:', error);
         }
@@ -121,10 +122,16 @@ export default function ClassroomScreen() {
                     const classroomRef = doc(db, 'classrooms', classroomId);
                     const currentUserUid = auth.currentUser.uid;
 
+                    const userRef = doc(db, 'users', {uid: currentUserUid});
+
+
                     // Check if the user is already a participant of the classroom
                     setDoc(classroomRef, { participants: { [currentUserUid]: true } }, { merge: true })
                         .then(() => {
                             alert('Joined the classroom successfully!');
+
+                            setDoc(userRef, {classes: {[classroomId] : true}}, {merge: true})
+
                             // Optionally navigate to the classroom screen or perform other actions
                         })
                         .catch((error) => {
@@ -146,6 +153,7 @@ export default function ClassroomScreen() {
         <TouchableOpacity onPress={() => navigation.navigate("Assignment", { classData: item })}>
 
         <View style={{ backgroundColor: '#ffffff', margin: 10, padding: 20, borderRadius: 10 }}>
+
             <Text style={{ color: '#4B5563', fontWeight: 'bold', fontSize: 20 }}>Name: {item.name}</Text>
             <Text style={{ color: '#4B5563', fontWeight: 'bold', fontSize: 16 }}>Code: {item.code}</Text>
             <Text style={{ color: '#4B5563', fontWeight: 'bold', fontSize: 16 }}>Owner: {item.owner}</Text>

@@ -12,7 +12,7 @@ import AppNavigation from './navigation/appNavigation';
 
 
 export default function App() {
-  LogBox.ignoreAllLogs();
+  //LogBox.ignoreAllLogs();
   return (
     <AppNavigation />
   );
