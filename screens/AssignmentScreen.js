@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import {View, Text, Button, FlatList, TouchableOpacity, Modal, TextInput, SafeAreaView} from 'react-native';
-import { getFirestore, collection, addDoc } from 'firebase/firestore';
+import { View, Text, Button, FlatList, TouchableOpacity, Modal, TextInput, SafeAreaView } from 'react-native';
+import { getFirestore, collection, addDoc, getDocs } from 'firebase/firestore'; // Added getDocs import
 import { useNavigation } from '@react-navigation/native';
 import { Picker } from "@react-native-picker/picker";
-import {themeColors} from "../theme";
+import { themeColors } from "../theme";
 
 const AssignmentScreen = () => {
     const navigation = useNavigation();
@@ -17,11 +17,15 @@ const AssignmentScreen = () => {
     // Fetch assignments from Firestore
     useEffect(() => {
         const fetchAssignments = async () => {
-            const db = getFirestore();
-            const assignmentCollection = collection(db, 'assignments');
-            const querySnapshot = await getDocs(assignmentCollection);
-            const data = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-            setAssignments(data);
+            try {
+                const db = getFirestore();
+                const assignmentCollection = collection(db, 'assignments');
+                const querySnapshot = await getDocs(assignmentCollection);
+                const data = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                setAssignments(data);
+            } catch (error) {
+                console.error('Error fetching assignments:', error);
+            }
         };
         fetchAssignments();
     }, []);
@@ -45,33 +49,16 @@ const AssignmentScreen = () => {
     };
 
     // Render each assignment item
-    useEffect(() => {
-        const fetchAssignments = async () => {
-            try {
-                const db = getFirestore();
-                const assignmentCollection = collection(db, 'assignments');
-                const data = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                setAssignments(data);
-            } catch (error) {
-                console.error('Error fetching assignments:', error);
-            }
-        };
-        fetchAssignments();
-    }, []);
-
     const renderItem = ({ item }) => (
-        <TouchableOpacity
-            >
-
+        <TouchableOpacity onPress={() => console.log("Pressed item:", item)}>
             <View style={{ backgroundColor: '#ffffff', margin: 10, padding: 20, borderRadius: 10 }}>
                 <Text style={{ color: '#4B5563', fontWeight: 'bold', fontSize: 20 }}>Name: {item.name}</Text>
                 <Text style={{ color: '#4B5563', fontWeight: 'bold', fontSize: 16 }}>Due Date: {item.dueDate}</Text>
-                <Text style={{ color: '#4B5563', fontWeight: 'bold', fontSize: 16 }}>Owner: {item.topic}</Text>
-
+                <Text style={{ color: '#4B5563', fontWeight: 'bold', fontSize: 16 }}>Theme: {item.topic}</Text>
             </View>
         </TouchableOpacity>
-
     );
+
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: themeColors.bg }}>
@@ -140,4 +127,3 @@ const AssignmentScreen = () => {
 };
 
 export default AssignmentScreen;
-
