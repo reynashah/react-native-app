@@ -61,6 +61,7 @@ const CardMatchScreen = ({ route }) => {
                 throw error;
             }
         };
+        // hello\
 
         try {
             if (Array.isArray(text)) {
