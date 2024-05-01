@@ -23,7 +23,7 @@ const TranslateScreen = ({ route }) => {
   const [questionNum, setQuestionNum] = useState(0);
   const [userAnswer, setUserAnswer] = useState("");
   const translateText = async (text) => {
-    const apiKey = "526bb5e251msh7aa7fa5103b1bffp155249jsnf817a86771f2";
+    const apiKey = "1af657bb7dmsh2e461227948941bp186d8djsn58e9550d7e46";
 
     const translateSingleText = async (singleText) => {
       const url = "https://text-translator2.p.rapidapi.com/translate";
