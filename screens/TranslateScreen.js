@@ -22,6 +22,7 @@ const TranslateScreen = ({ route }) => {
   const textInputRef = useRef(null);
   const [questionNum, setQuestionNum] = useState(0);
   const [userAnswer, setUserAnswer] = useState("");
+  const [userScore, setUserScore] = useState(0);
   const translateText = async (text) => {
     const apiKey = "1af657bb7dmsh2e461227948941bp186d8djsn58e9550d7e46";
 
@@ -113,6 +114,13 @@ const TranslateScreen = ({ route }) => {
 
     if (textInputRef.current) {
       textInputRef.current.clear();
+    }
+
+    if (questionNum > 3){
+      alert(`Quiz completed! Your score is ${questionNum + 1}/${questionNum + 1}`);
+    }
+    else {
+      alert(`Correct!`);
     }
 
   }

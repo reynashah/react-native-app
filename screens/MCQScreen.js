@@ -33,6 +33,26 @@ export default function MCQScreen() {
       options: ["room", "house", "school", "book"],
       correctOptionIndex: 2,
     },
+    {
+      "questionText": "El perro",
+      "options": ["dog", "cat", "horse", "bird"],
+      "correctOptionIndex": 0
+    },
+    {
+      "questionText": "El libro",
+      "options": ["book", "pen", "desk", "lamp"],
+      "correctOptionIndex": 0
+    },
+    {
+      "questionText": "La ventana",
+      "options": ["door", "window", "wall", "roof"],
+      "correctOptionIndex": 1
+    },
+    {
+      "questionText": "El árbol",
+      "options": ["flower", "tree", "river", "mountain"],
+      "correctOptionIndex": 1
+    }
   ];
 
   const handleAnswer = (selectedOptionIndex) => {
