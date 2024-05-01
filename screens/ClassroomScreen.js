@@ -154,7 +154,7 @@ export default function ClassroomScreen() {
         <TouchableOpacity onPress={() => navigation.navigate("Assignment", { classData: item })}>
             <View style={{ backgroundColor: item.color, margin: 10, padding: 20, borderRadius: 10 }}>
                 <Text style={{ color: '#ffffff', fontWeight: 'bold', fontSize: 20 }}>Name: {item.name}</Text>
-                <Text style={{ color: '#ffffff', fontWeight: 'bssold', fontSize: 16 }}>Code: {item.code}</Text>
+                <Text style={{ color: '#ffffff', fontWeight: 'bold', fontSize: 16 }}>Code: {item.code}</Text>
                 <Text style={{ color: '#ffffff', fontWeight: 'bold', fontSize: 16 }}>Owner: {item.owner}</Text>
             </View>
         </TouchableOpacity>
@@ -201,7 +201,7 @@ export default function ClassroomScreen() {
                     <FlatList
                         data={otherClasses}
                         renderItem={renderItem}
-                        keyExtractor={(item) => item.id.toString()}
+                        keyExtractor={item => item.id}
                     />
                 </View>
             }

@@ -4,10 +4,10 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { themeColors } from "../theme";
 import jsonData from "../components/words";
 import shuffle from "lodash/shuffle";
-import axios from "axios";
+import axios from "axios"; // Import lodash shuffle for shuffling words
 
 const CardMatchScreen = ({ route }) => {
-    const { selectedCategory } = route.params;
+    const { selectedLanguage, selectedCategory } = route.params;
 
     const [words, setWords] = useState([]);
     const [translations, setTranslations] = useState([]);
@@ -20,53 +20,59 @@ const CardMatchScreen = ({ route }) => {
         );
 
         if (selectedCategoryData) {
+            // Shuffle the words and select the first 5
             const shuffledWords = shuffle(selectedCategoryData.words).slice(0, 5);
             setWords(shuffledWords);
 
-            translateWords(shuffledWords).then((translatedWords) => {
-                setTranslations(translatedWords);
-            }).catch((error) => {
-                console.error("Translation error:", error);
-            });
+            // Translate the selected words
+            translateWords(shuffledWords);
         }
-    }, [selectedCategory]);
+    }, [selectedCategory, selectedLanguage]);
 
     const translateWords = async (text) => {
-        const apiKey = '526bb5e251msh7aa7fa5103b1bffp155249jsnf817a86771f2'; // Replace with your API key
+        const apiKey = "526bb5e251msh7aa7fa5103b1bffp155249jsnf817a86771f2";
 
         const translateSingleText = async (singleText) => {
-            const url = 'https://text-translator2.p.rapidapi.com/translate';
+            const url = "https://text-translator2.p.rapidapi.com/translate";
 
             const formData = new FormData();
-            formData.append('source_language', 'en');
-            formData.append('target_language', 'ru');
-            formData.append('text', singleText);
+            formData.append("source_language", "en");
+            formData.append("target_language", selectedLanguage);
+            formData.append("text", singleText);
 
             try {
                 const response = await axios.post(url, formData, {
                     headers: {
-                        'content-type': 'multipart/form-data',
-                        'X-RapidAPI-Key': apiKey,
-                        'X-RapidAPI-Host': 'text-translator2.p.rapidapi.com',
+                        "content-type": "multipart/form-data",
+                        "X-RapidAPI-Key": apiKey,
+                        "X-RapidAPI-Host": "text-translator2.p.rapidapi.com",
                     },
                 });
 
-                if (response.data && response.data.status === 'success' && response.data.data && response.data.data.translatedText) {
+                console.log("API Response:", response.data);
+
+                if (
+                    response.data &&
+                    response.data.status === "success" &&
+                    response.data.data &&
+                    response.data.data.translatedText
+                ) {
                     return response.data.data.translatedText;
                 } else {
-                    console.error('Invalid API Response:', response.data);
-                    throw new Error('Invalid API response format');
+                    console.error("Invalid API Response:", response.data);
+                    throw new Error("Invalid API response format");
                 }
             } catch (error) {
                 throw error;
             }
         };
-        // hello\
 
         try {
             if (Array.isArray(text)) {
+                // Handle an array of texts for translation
                 return Promise.all(text.map(translateSingleText));
             } else {
+                // Handle a single text for translation
                 return translateSingleText(text);
             }
         } catch (error) {
@@ -76,38 +82,30 @@ const CardMatchScreen = ({ route }) => {
     };
 
     const handleWordPress = (word, translation) => {
-        console.log("Selected Word:", word);
-        console.log("Selected Translation:", translation);
-        console.log("Selected Words:", selectedWords);
-
         if (selectedWords.length < 2 && !selectedWords.includes(word)) {
             setSelectedWords([...selectedWords, { word, translation }]);
         }
 
         if (selectedWords.length === 1 && !selectedWords.includes(word)) {
-            console.log("Comparing translations...");
+            // Check if translations match
             if (selectedWords[0].translation === translation) {
-                console.log("Translations match!");
                 setScore(score + 1);
                 setSelectedWords([]);
                 removeSelectedWords(word);
             } else {
-                console.log("Translations do not match!");
                 setTimeout(() => {
                     setSelectedWords([]);
-                }, 10000);
+                }, 1000);
             }
         }
     };
-
-
 
     const removeSelectedWords = (word) => {
         const updatedWords = words.filter((item) => item !== word);
         setWords(updatedWords);
 
         const updatedTranslations = translations.filter(
-            (item) => item !== word.translation
+            (item) => item.word !== word.translation
         );
         setTranslations(updatedTranslations);
     };
@@ -115,25 +113,24 @@ const CardMatchScreen = ({ route }) => {
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: themeColors.bg }}>
             <View style={{ flex: 1 }}>
-                <Text style={{ alignSelf: 'flex-end', marginRight: 10 }}>
+                <Text style={{ alignSelf: "flex-end", marginRight: 10 }}>
                     Score: {score}
                 </Text>
                 <FlatList
                     data={words}
-                    numColumns={1}
+                    numColumns={5}
                     keyExtractor={(item) => item}
                     renderItem={({ item, index }) => (
                         <TouchableOpacity
                             style={{
                                 flex: 1,
-                                alignItems: 'center',
-                                justifyContent: 'center',
+                                alignItems: "center",
+                                justifyContent: "center",
                                 margin: 5,
                                 backgroundColor: selectedWords.find((word) => word === item)
-                                    ? 'white'
-                                    : 'white',
-                                height: 100,
-                                length: 100,
+                                    ? "gray"
+                                    : "lightgray",
+                                height: 50,
                                 borderRadius: 5,
                             }}
                             onPress={() => handleWordPress(item, translations[index])}
@@ -144,22 +141,21 @@ const CardMatchScreen = ({ route }) => {
                 />
                 <FlatList
                     data={translations}
-                    numColumns={1}
+                    numColumns={5}
                     keyExtractor={(item) => item}
                     renderItem={({ item }) => (
                         <TouchableOpacity
                             style={{
                                 flex: 1,
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                margin: 40,
+                                alignItems: "center",
+                                justifyContent: "center",
+                                margin: 5,
                                 backgroundColor: selectedWords.find(
                                     (word) => word.translation === item
                                 )
-                                    ? 'white'
-                                    : 'white',
-                                height: 100,
-                                length: 100,
+                                    ? "gray"
+                                    : "lightgray",
+                                height: 50,
                                 borderRadius: 5,
                             }}
                             onPress={() => handleWordPress(item.translation, item.word)}
