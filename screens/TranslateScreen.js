@@ -1,17 +1,27 @@
-import React, { useState, useEffect } from "react";
-import { View, FlatList, Text, Image, TouchableOpacity } from "react-native";
+import React, { useState, useEffect, useRef } from "react";
+import {
+  View,
+  FlatList,
+  Text,
+  Image,
+  TouchableOpacity,
+  TextInput,
+} from "react-native";
 import Flashcard from "../components/Flashcard";
 import { ArrowLeftIcon } from "react-native-heroicons/solid";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import { themeColors } from "../theme";
 import axios from "axios"; // Import axios for API requests
-import jsonData from "../components/words";
+import jsonData from "../components/sentences";
 import queryString from "query-string";
 
-const FlashcardScreen = ({ route }) => {
+const TranslateScreen = ({ route }) => {
   const { selectedLanguage, selectedCategory } = route.params;
   const navigation = useNavigation();
+  const textInputRef = useRef(null);
+  const [questionNum, setQuestionNum] = useState(0);
+  const [userAnswer, setUserAnswer] = useState("");
   const translateText = async (text) => {
     const apiKey = "1af657bb7dmsh2e461227948941bp186d8djsn58e9550d7e46";
 
@@ -70,12 +80,11 @@ const FlashcardScreen = ({ route }) => {
   );
 
   // Initialize flashcards state with translated words
-  const [flashcards, setFlashcards] = useState([]);
+  const [flashcards, setFlashcards] = useState([""]);
 
   useEffect(() => {
-    console.log("Selected Category:", selectedCategory);
-    console.log("JSON Data:", jsonData);
-    console.log(selectedCategory);
+    //console.log("Selected Category:", selectedCategory);
+    //console.log("JSON Data:", jsonData);
     console.log("Selected Category Data:", selectedCategoryData);
 
     const translateFlashcards = async () => {
@@ -85,17 +94,28 @@ const FlashcardScreen = ({ route }) => {
             const translatedWord = await translateText(word, selectedLanguage);
             return {
               id: index + 1, // Use a unique identifier (replace with a proper ID if needed)
-              question: word,
-              answer: translatedWord,
+              question: translatedWord,
+              answer: word,
             };
           })
         );
         setFlashcards(translatedFlashcards);
+        console.log(flashcards);
       }
     };
 
     translateFlashcards();
   }, [selectedCategoryData, selectedLanguage]);
+
+  function nextQuestion() {
+    setQuestionNum(questionNum + 1);
+    console.log(questionNum);
+
+    if (textInputRef.current) {
+      textInputRef.current.clear();
+    }
+
+  }
 
   return (
     <SafeAreaView
@@ -113,26 +133,34 @@ const FlashcardScreen = ({ route }) => {
           </TouchableOpacity>
           <View className="flex-row justify-center mt-5">
             <Text className="text-white font-bold text-5xl mb-4 text-center">
-              {"   "}Flashcards{" "}
+              {"     "} Activity{" "}
             </Text>
-            <Image
-              source={require("../assets/images/lightbulb.png")}
-              style={{ width: 42, height: 42 }}
-            />
           </View>
         </View>
 
-        <View className="flex-row justify-start">
-          <FlatList
-            numColumns={2}
-            data={flashcards}
-            keyExtractor={(item) => item.id.toString()}
-            renderItem={({ item }) => <Flashcard flashcard={item} />}
+        <View className="flex-row justify-center">
+          <Text className="text-white text-center font-bold text-2xl mx-3">
+            Translate: {selectedCategoryData.words[questionNum]}
+          </Text>
+        </View>
+        <View className="flex-row justify-center">
+          <TextInput
+            ref={textInputRef}
+            className="p-4 bg-gray-100 text-gray-700 rounded-2xl my-6"
+            placeholder="type here"
+            value={userAnswer}
+            onChangeText={(value) => setUserAnswer(value)}
           />
         </View>
+        <TouchableOpacity
+          onPress={nextQuestion}
+          className="justify-bottom py-3 bg-sky-200 mx-7 mt-80 rounded-xl"
+        >
+          <Text className="text-4xl text-center text-gray-700">Submit</Text>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
 };
 
-export default FlashcardScreen;
+export default TranslateScreen;

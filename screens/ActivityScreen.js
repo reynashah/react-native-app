@@ -27,16 +27,33 @@ export default function ActivityScreen() {
       >
         <Text className="text-white text-lg font-bold text-center">Logout</Text>
       </TouchableOpacity>
-      <View className="flex-1 flex justify-around my-4">
-        <Text className="text-white font-bold text-4xl text-center">
+      <Text className="text-white font-bold text-4xl text-center">
           Activity
         </Text>
-        <View className="space-y-4">
+      <View className="flex-1 justify-around my-2">
+        <View className="space-y-5">
+        <TouchableOpacity
+            onPress={() => navigation.navigate("MCQ")}
+            className="py-3 bg-sky-200 mx-7 rounded-xl"
+          >
+            <Text className="text-4xl text-center text-gray-700">
+              Multiple Choice
+            </Text>
+          </TouchableOpacity>
+        <TouchableOpacity
+            onPress={() => navigation.navigate("TranslateHome")}
+            className="py-3 bg-sky-200 mx-7 rounded-xl"
+          >
+            <Text className="text-4xl text-center text-gray-700">
+              Translate Sentences
+            </Text>
+          </TouchableOpacity>
+
           <TouchableOpacity
             onPress={() => navigation.navigate("Home")}
             className="py-3 bg-sky-200 mx-7 rounded-xl"
           >
-            <Text className="text-xl font-bold text-center text-gray-700">
+            <Text className="text-4xl text-center text-gray-700">
               Matching Cards
             </Text>
           </TouchableOpacity>
@@ -45,7 +62,7 @@ export default function ActivityScreen() {
             onPress={() => navigation.navigate("Home")}
             className="py-3 bg-sky-200 mx-7 rounded-xl"
           >
-            <Text className="text-xl font-bold text-center text-gray-700">
+            <Text className="text-4xl text-center text-gray-700">
               Flashcards
             </Text>
           </TouchableOpacity>
