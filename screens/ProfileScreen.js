@@ -32,7 +32,7 @@ export default function ProfileScreen() {
             <Text style={styles.avatar}>R</Text>
           </View>
           <View style={styles.nameContainer}>
-            <Text style={styles.name}>User</Text>
+            <Text style={styles.name}>{auth.currentUser.tenantId}</Text>
           </View>
           <View style={styles.infoContainer}>
             <Text style={styles.infoLabel}>Email:</Text>

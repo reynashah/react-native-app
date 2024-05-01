@@ -9,6 +9,7 @@ import { auth } from "../config/firebase";
 
 export default function SignUpScreen() {
   const navigation = useNavigation();
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -16,6 +17,8 @@ export default function SignUpScreen() {
     if (email && password) {
       try {
         await createUserWithEmailAndPassword(auth, email, password);
+        auth.currentUser.tenantId = name;
+        console.log(auth.currentUser.tenantId)
       } catch (err) {
         console.log("got error: ", err.message);
       }
@@ -51,6 +54,8 @@ export default function SignUpScreen() {
           <TextInput
             className="p-4 bg-gray-100 text-gray-700 rounded-2xl mb-3"
             placeholder="Enter Name"
+            value={name}
+            onChangeText={(value) => setName(value)}
           />
           <Text className="text-gray-700 ml-4">Email Address</Text>
           <TextInput
