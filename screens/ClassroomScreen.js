@@ -1,13 +1,11 @@
 
 import React, { useState, useEffect } from 'react';
-import {View, TextInput, Button, FlatList, TouchableOpacity, SafeAreaView, Text, Modal} from 'react-native';
+import { View, TextInput, Button, FlatList, TouchableOpacity, SafeAreaView, Text, Modal } from 'react-native';
 import { getFirestore, collection, addDoc, query, where, getDocs, doc, setDoc } from 'firebase/firestore';
 import { auth } from '../config/firebase.js';
-import {useNavigation} from "@react-navigation/native";
-import AssignmentScreen from "../screens/AssignmentScreen";
-
-import {themeColors} from "../theme";
-import {Picker} from "@react-native-picker/picker"; // Assuming your Firebase initialization is in a file named 'firebase.js'
+import { useNavigation } from "@react-navigation/native";
+import { themeColors } from "../theme";
+import { Picker } from "@react-native-picker/picker";
 
 const BoxPicker = ({ options, selectedValue, onValueChange }) => {
     return (
@@ -32,6 +30,7 @@ const BoxPicker = ({ options, selectedValue, onValueChange }) => {
         </View>
     );
 };
+
 export default function ClassroomScreen() {
     const navigation = useNavigation();
     const [classrooms, setClassrooms] = useState([]);
@@ -39,9 +38,8 @@ export default function ClassroomScreen() {
     const [joinCode, setJoinCode] = useState('');
     const [isJoinModalVisible, setIsJoinModalVisible] = useState(false);
     const [isCreateModalVisible, setIsCreateModalVisible] = useState(false);
-    const [selectedLanguage, setSelectedLanguage] = useState('en'); // Default language is english
-
-
+    const [selectedLanguage, setSelectedLanguage] = useState('en');
+    const [selectedColor, setSelectedColor] = useState('#3e588d'); // Default color
 
     const toggleJoinModal = () => {
         setIsJoinModalVisible(!isJoinModalVisible);
@@ -94,7 +92,13 @@ export default function ClassroomScreen() {
         const db = getFirestore();
         const classroomCollection = collection(db, 'classrooms');
         const code = generateUniqueCode();
-        const newClassroom = { name: className, code: code, creator: auth.currentUser.uid,  language: selectedLanguage };
+        const newClassroom = {
+            name: className,
+            code: code,
+            owner: auth.currentUser.uid, // Add owner field
+            language: selectedLanguage,
+            color: selectedColor // Add selected color
+        };
         try {
             await addDoc(classroomCollection, newClassroom);
             setClassName('');
@@ -121,10 +125,13 @@ export default function ClassroomScreen() {
                     const classroomRef = doc(db, 'classrooms', classroomId);
                     const currentUserUid = auth.currentUser.uid;
 
+                    const userRef = doc(db, 'users', { uid: currentUserUid });
+
                     // Check if the user is already a participant of the classroom
                     setDoc(classroomRef, { participants: { [currentUserUid]: true } }, { merge: true })
                         .then(() => {
                             alert('Joined the classroom successfully!');
+                            setDoc(userRef, { classes: { [classroomId]: true } }, { merge: true });
                             // Optionally navigate to the classroom screen or perform other actions
                         })
                         .catch((error) => {
@@ -138,29 +145,30 @@ export default function ClassroomScreen() {
                 alert('An error occurred while joining the classroom. Please try again later.');
             });
     };
+
     useEffect(() => {
         fetchClassrooms();
     }, [isCreateModalVisible]);
 
     const renderItem = ({ item }) => (
         <TouchableOpacity onPress={() => navigation.navigate("Assignment", { classData: item })}>
-
-        <View style={{ backgroundColor: '#ffffff', margin: 10, padding: 20, borderRadius: 10 }}>
-            <Text style={{ color: '#4B5563', fontWeight: 'bold', fontSize: 20 }}>Name: {item.name}</Text>
-            <Text style={{ color: '#4B5563', fontWeight: 'bold', fontSize: 16 }}>Code: {item.code}</Text>
-            <Text style={{ color: '#4B5563', fontWeight: 'bold', fontSize: 16 }}>Owner: {item.owner}</Text>
-
-        </View>
+            <View style={{ backgroundColor: item.color, margin: 10, padding: 20, borderRadius: 10 }}>
+                <Text style={{ color: '#ffffff', fontWeight: 'bold', fontSize: 20 }}>Name: {item.name}</Text>
+                <Text style={{ color: '#ffffff', fontWeight: 'bold', fontSize: 16 }}>Code: {item.code}</Text>
+                <Text style={{ color: '#ffffff', fontWeight: 'bold', fontSize: 16 }}>Owner: {item.owner}</Text>
+            </View>
         </TouchableOpacity>
-
     );
 
     useEffect(() => {
         fetchClassrooms();
     }, [isCreateModalVisible]);
 
+    const myClasses = classrooms.filter(item => item.owner === auth.currentUser.uid);
+    const otherClasses = classrooms.filter(item => item.owner !== auth.currentUser.uid);
+
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor:  themeColors.bg }}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: themeColors.bg }}>
             <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', paddingVertical: 20 }}>
                 <TouchableOpacity
                     onPress={toggleCreateModal}
@@ -175,12 +183,28 @@ export default function ClassroomScreen() {
                     <Text style={{ color: '#ffffff', fontWeight: 'bold', fontSize: 16, textAlign: 'center' }}>Join Class</Text>
                 </TouchableOpacity>
             </View>
-            <FlatList
-                data={classrooms}
-                renderItem={renderItem}
-                keyExtractor={(item) => item.id.toString()}
-            />
 
+            {myClasses.length > 0 &&
+                <View>
+                    <Text style={{ color: '#4B5563', fontWeight: 'bold', fontSize: 20, marginHorizontal: 10 }}>Created by Me:</Text>
+                    <FlatList
+                        data={myClasses}
+                        renderItem={renderItem}
+                        keyExtractor={(item) => item.id.toString()}
+                    />
+                </View>
+            }
+
+            {otherClasses.length > 0 &&
+                <View>
+                    <Text style={{ color: '#4B5563', fontWeight: 'bold', fontSize: 20, marginHorizontal: 10 }}>Others:</Text>
+                    <FlatList
+                        data={otherClasses}
+                        renderItem={renderItem}
+                        keyExtractor={item => item.id}
+                    />
+                </View>
+            }
 
             {/* Modal for Join Class */}
             <Modal
@@ -229,14 +253,25 @@ export default function ClassroomScreen() {
                         />
                         <BoxPicker
                             options={[
+                                { label: 'Blue', value: '#3e588d' },
+                                { label: 'Green', value: '#10B981' },
+                                { label: 'Red', value: '#EF4444' },
+                                { label: 'Yellow', value: '#F59E0B' },
+                                { label: 'Purple', value: '#8B5CF6' },
+
+                            ]}
+                            selectedValue={selectedColor}
+                            onValueChange={setSelectedColor}
+                        />
+                        <BoxPicker
+                            options={[
                                 { label: 'Spanish', value: 'es' },
                                 { label: 'Russian', value: 'ru' },
-                                { label:"French", value:"fr" },
-                                    { label:"Spanish", value:"es" },
-                                        { label: "Chinese", value:"zh" },
-                                            { label:"Hindi", value:"hi" },
-                                                { label:"Korean", value:"ko" }
-                                // Add more languages as needed
+                                { label: "French", value: "fr" },
+                                { label: "Spanish", value: "es" },
+                                { label: "Chinese", value: "zh" },
+                                { label: "Hindi", value: "hi" },
+                                { label: "Korean", value: "ko" }
                             ]}
                             selectedValue={selectedLanguage}
                             onValueChange={setSelectedLanguage}
