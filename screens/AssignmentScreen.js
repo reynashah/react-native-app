@@ -139,33 +139,24 @@ const AssignmentScreen = ({ route }) => {
     const navigateToActivityScreen = (assignment) => {
         const { type, topic } = assignment;
         const { language } = classData;
-
-        console.log("class data: " + language.toString());
-        console.log("class data: " + topic.toString());
-
-
-        setSelectedLanguage("" + language.toString());
-        setSelectedCategory("" + topic.toString());
-
-        console.log(selectedLanguage)
-        console.log(selectedCategory)
-
+        const selectedLanguage = language.toString();
+        const selectedTopic = topic.toString();
+        console.log(language, topic);
+        console.log(selectedLanguage, selectedTopic);
 
         switch (type) {
             case 'MultipleChoice':
-                navigation.navigate('MCQ', { language });
+                navigation.navigate('MCQ', { selectedLanguage });
                 break;
             case 'TranslateSentences':
-                navigation.navigate('Translate', { language });
+                navigation.navigate('Translate', { selectedLanguage });
                 break;
             case 'MatchingCards':
-                navigation.navigate('CardMatch', { language, topic });
+                navigation.navigate("CardMatch", { selectedLanguage, selectedCategory: selectedTopic });
                 break;
             case 'Flashcards':
-                navigation.navigate("Flashcards", {
-                    selectedLanguage,
-                    selectedCategory,
-                  })
+                // Here, we should pass both selectedLanguage and selectedTopic
+                navigation.navigate('Flashcards', { selectedLanguage, selectedCategory: selectedTopic });
                 break;
             default:
                 console.error('Invalid assignment type:', type);

@@ -6,21 +6,29 @@ import { ArrowLeftIcon } from "react-native-heroicons/solid";
 import { useNavigation } from "@react-navigation/native";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../config/firebase";
+import {addDoc, collection, getFirestore} from "firebase/firestore";
 
 export default function SignUpScreen() {
   const navigation = useNavigation();
-  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
 
   const handleSubmit = async () => {
     if (email && password) {
       try {
         await createUserWithEmailAndPassword(auth, email, password);
-        auth.currentUser.tenantId = name;
-        console.log(auth.currentUser.tenantId)
-      } catch (err) {
+      }
+      catch (err) {
         console.log("got error: ", err.message);
+      }
+      const db = getFirestore();
+      const userCollection = collection(db, 'users');
+      const newUser = { name: name, uid: auth.currentUser.uid, email: email};
+      try {
+        await addDoc(userCollection, newUser);
+      } catch (error) {
+        console.error('Error creating account:', error);
       }
     }
   };
@@ -54,8 +62,8 @@ export default function SignUpScreen() {
           <TextInput
             className="p-4 bg-gray-100 text-gray-700 rounded-2xl mb-3"
             placeholder="Enter Name"
-            value={name}
             onChangeText={(value) => setName(value)}
+
           />
           <Text className="text-gray-700 ml-4">Email Address</Text>
           <TextInput

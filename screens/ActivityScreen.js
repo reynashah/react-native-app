@@ -16,18 +16,18 @@ export default function ActivityScreen() {
   };
 
   return (
-    <SafeAreaView
-      className="flex-1"
-      style={{ backgroundColor: themeColors.bg }}
-    >
-      <TouchableOpacity
-        style={{ width: 80, height: 40 }}
-        onPress={handleLogout}
-        className="bg-red-400 p-1 rounded-tr-2xl rounded-bl-2xl ml-4"
+      <SafeAreaView
+          className="flex-1"
+          style={{ backgroundColor: themeColors.bg }}
       >
-        <Text className="text-white text-lg font-bold text-center">Logout</Text>
-      </TouchableOpacity>
-      <Text className="text-white font-bold text-4xl text-center">
+        <TouchableOpacity
+            style={{ width: 80, height: 40 }}
+            onPress={handleLogout}
+            className="bg-red-400 p-1 rounded-tr-2xl rounded-bl-2xl ml-4"
+        >
+          <Text className="text-white text-lg font-bold text-center">Logout</Text>
+        </TouchableOpacity>
+        <Text className="text-white font-bold text-4xl text-center">
           Activity
         </Text>
       <View className="flex-1 justify-around my-2">
@@ -49,25 +49,25 @@ export default function ActivityScreen() {
             </Text>
           </TouchableOpacity>
 
-          <TouchableOpacity
-            onPress={() => navigation.navigate("CardMatch")}
-            className="py-3 bg-sky-200 mx-7 rounded-xl"
-          >
-            <Text className="text-4xl text-center text-gray-700">
-              Matching Cards
-            </Text>
-          </TouchableOpacity>
+            <TouchableOpacity
+                onPress={() => navigation.navigate("CardMatch")}
+                className="py-3 bg-sky-200 mx-7 rounded-xl"
+            >
+              <Text className="text-4xl text-center text-gray-700">
+                Matching Cards
+              </Text>
+            </TouchableOpacity>
 
-          <TouchableOpacity
-            onPress={() => navigation.navigate("Home")}
-            className="py-3 bg-sky-200 mx-7 rounded-xl"
-          >
-            <Text className="text-4xl text-center text-gray-700">
-              Flashcards
-            </Text>
-          </TouchableOpacity>
+            <TouchableOpacity
+                onPress={() => navigation.navigate("Home")}
+                className="py-3 bg-sky-200 mx-7 rounded-xl"
+            >
+              <Text className="text-4xl text-center text-gray-700">
+                Flashcards
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
-    </SafeAreaView>
+      </SafeAreaView>
   );
 }
