@@ -1,6 +1,314 @@
 {
-    
   "categories": [
+    {
+      "name": "Basic",
+      "words": [
+        {
+          "questionText": "carrot",
+          "options": ["carrot", "potato", "tomato", "cucumber"],
+          "correctOptionIndex": 0
+        },
+        {
+          "questionText": "chair",
+          "options": ["chair", "table", "sofa", "bed"],
+          "correctOptionIndex": 0
+        },
+        {
+          "questionText": "run",
+          "options": ["run", "walk", "jump", "swim"],
+          "correctOptionIndex": 0
+        },
+        {
+          "questionText": "blue",
+          "options": ["blue", "red", "yellow", "green"],
+          "correctOptionIndex": 0
+        },
+        {
+          "questionText": "book",
+          "options": ["book", "pen", "pencil", "notebook"],
+          "correctOptionIndex": 0
+        },
+        {
+          "questionText": "dog",
+          "options": ["dog", "cat", "fish", "bird"],
+          "correctOptionIndex": 0
+        },
+        {
+          "questionText": "jump",
+          "options": ["jump", "run", "walk", "swim"],
+          "correctOptionIndex": 0
+        },
+        {
+          "questionText": "apple",
+          "options": ["apple", "banana", "orange", "grape"],
+          "correctOptionIndex": 0
+        },
+        {
+          "questionText": "house",
+          "options": ["house", "apartment", "condo", "mansion"],
+          "correctOptionIndex": 0
+        },
+        {
+          "questionText": "ball",
+          "options": ["ball", "block", "doll", "car"],
+          "correctOptionIndex": 0
+        }
+      ]
+    },
+    {
+      "name": "Family",
+      "words": [
+        {
+          "questionText": "Aunt",
+          "options": ["Aunt", "Uncle", "Cousin", "Grandmother"],
+          "correctOptionIndex": 0
+        },
+        {
+          "questionText": "Cousin",
+          "options": ["Brother", "Mother", "Aunt", "Cousin"],
+          "correctOptionIndex": 3
+        },
+        {
+          "questionText": "Grandparents",
+          "options": ["Grandparents", "Aunts", "Cousins", "Siblings"],
+          "correctOptionIndex": 0
+        },
+        {
+          "questionText": "Grandfather",
+          "options": ["Father", "Uncle", "Grandfather", "Cousin"],
+          "correctOptionIndex": 2
+        },
+        {
+          "questionText": "Nephew",
+          "options": ["Uncle", "Brother", "Cousin", "Nephew"],
+          "correctOptionIndex": 3
+        },
+        {
+          "questionText": "Grandmother",
+          "options": ["Grandmother", "Grandfather", "Aunt", "Cousin"],
+          "correctOptionIndex": 0
+        },
+        {
+          "questionText": "Sister",
+          "options": ["Sister", "Brother", "Mother", "Uncle"],
+          "correctOptionIndex": 0
+        },
+        {
+          "questionText": "Sibling",
+          "options": ["Children", "Sibling", "Nieces", "Nephews"],
+          "correctOptionIndex": 1
+        },
+        {
+          "questionText": "Great Grandmother",
+          "options": ["Mother", "Aunt", "Great Grandmother", "Cousin"],
+          "correctOptionIndex": 2
+        },
+        {
+          "questionText": "Brother",
+          "options": ["Grandmother", "Brother", "Uncle", "Cousin"],
+          "correctOptionIndex": 1
+        }
+      ]
+    },
+    {
+      "name": "Food",
+      "words": [
+        {
+          "questionText": "tomato",
+          "options": ["pepper", "tomato", "cabbage", "potato"],
+          "correctOptionIndex": 1
+        },
+        {
+          "questionText": "mushroom",
+          "options": ["cucumber", "tomato", "mushroom", "pepper"],
+          "correctOptionIndex": 2
+        },
+        {
+          "questionText": "potato",
+          "options": ["cauliflower", "potato", "cucumber", "eggplant"],
+          "correctOptionIndex": 1
+        },
+        {
+          "questionText": "carrot",
+          "options": ["potato", "tomato", "carrot", "pepper"],
+          "correctOptionIndex": 2
+        },
+        {
+          "questionText": "cucumber",
+          "options": ["cucumber", "tomato", "mushroom", "zucchini"],
+          "correctOptionIndex": 0
+        },
+        {
+          "questionText": "broccoli",
+          "options": ["pumpkin", "cucumber", "broccoli", "pepper"],
+          "correctOptionIndex": 2
+        },
+        {
+          "questionText": "spinach",
+          "options": ["cucumber", "radish", "beetroot", "spinach"],
+          "correctOptionIndex": 3
+        },
+        {
+          "questionText": "onion",
+          "options": ["onion", "tomato", "cauliflower", "pepper"],
+          "correctOptionIndex": 0
+        },
+        {
+          "questionText": "eggplant",
+          "options": ["onion", "eggplant", "potato", "cucumber"],
+          "correctOptionIndex": 1
+        },
+        {
+          "questionText": "lettuce",
+          "options": ["zucchini", "pumpkin", "lettuce", "pepper"],
+          "correctOptionIndex": 2
+        },
+        {
+          "questionText": "banana",
+          "options": ["banana", "apple", "orange", "grape"],
+          "correctOptionIndex": 0
+        }
+      ]
+    },
+    {
+      "name": "Phrases",
+      "words": [
+        {
+          "questionText": "hello",
+          "options": ["house", "hello", "sofa", "welcome"],
+          "correctOptionIndex": 1
+        },
+        {
+          "questionText": "good afternoon",
+          "options": ["good afternoon", "house", "school", "book"],
+          "correctOptionIndex": 0
+        },
+        {
+          "questionText": "goodbye",
+          "options": ["hello", "child", "goodbye", "pepper"],
+          "correctOptionIndex": 2
+        },
+        {
+          "questionText": "welcome",
+          "options": ["room", "welcome", "hello", "book"],
+          "correctOptionIndex": 1
+        },
+        {
+          "questionText": "good morning",
+          "options": ["television", "hi", "good morning", "book"],
+          "correctOptionIndex": 2
+        },
+        {
+          "questionText": "good night",
+          "options": ["night", "good morning", "school", "good night"],
+          "correctOptionIndex": 3
+        }
+      ]
+    },
+    {
+      "name": "Animals",
+      "words": [
+        {
+          "questionText": "cat",
+          "options": ["cat", "dog", "fish", "bird"],
+          "correctOptionIndex": 0
+        },
+        {
+          "questionText": "bird",
+          "options": ["dog", "cat", "bird", "fish"],
+          "correctOptionIndex": 2
+        },
+        {
+          "questionText": "fish",
+          "options": ["snail", "animal", "fish", "whale"],
+          "correctOptionIndex": 2
+        }
+      ]
+    },
+    {
+      "name": "Colors",
+      "words": [
+        {
+          "questionText": "red",
+          "options": ["red", "blue", "yellow", "green"],
+          "correctOptionIndex": 0
+        },
+        {
+          "questionText": "blue",
+          "options": ["yellow", "blue", "black", "orange"],
+          "correctOptionIndex": 2
+        },
+        {
+          "questionText": "green",
+          "options": ["white", "yellow", "blue", "green"],
+          "correctOptionIndex": 3
+        },
+        {
+          "questionText": "pink",
+          "options": ["orange", "pink", "yellow", "green"],
+          "correctOptionIndex": 0
+        }
+      ]
+    },
+    {
+      "name": "Verbs",
+      "words": [
+        {
+          "questionText": "eat",
+          "options": ["eat", "sleep", "run", "talk"],
+          "correctOptionIndex": 0
+        },
+        {
+          "questionText": "run",
+          "options": ["walk", "run", "stand", "sit"],
+          "correctOptionIndex": 1
+        },
+        {
+          "questionText": "swim",
+          "options": ["run", "eat", "swim", "sleep"],
+          "correctOptionIndex": 2
+        },
+        {
+          "questionText": "bring",
+          "options": ["to do", "write", "bring", "listen"],
+          "correctOptionIndex": 2
+        },
+        {
+          "questionText": "write",
+          "options": ["eat", "work", "scratch", "write"],
+          "correctOptionIndex": 1
+        }
+      ]
+    },
+    {
+      "name": "Emotions",
+      "words": [
+        {
+          "questionText": "happiness",
+          "options": ["excitement", "sadness", "happiness", "excitement"],
+          "correctOptionIndex": 2
+        },
+        {
+          "questionText": "anger",
+          "options": ["anger", "sadness", "surprise", "laugh"],
+          "correctOptionIndex": 0
+        },
+        {
+          "questionText": "sadness",
+          "options": ["happy", "love", "anger", "sadness"],
+          "correctOptionIndex": 3
+        },
+        {
+          "questionText": "love",
+          "options": ["disgust", "love", "surprise", "anger"],
+          "correctOptionIndex": 1
+        },
+        {
+          "questionText": "excitement",
+          "options": ["anger", "excitement", "contentment", "happiness"],
+          "correctOptionIndex": 1
+        }
+      ]
+    }
   ]
-
 }

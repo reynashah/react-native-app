@@ -33,7 +33,7 @@ export default function ActivityScreen() {
       <View className="flex-1 justify-around my-2">
         <View className="space-y-5">
         <TouchableOpacity
-            onPress={() => navigation.navigate("MCQ")}
+            onPress={() => navigation.navigate("MCQHome")}
             className="py-3 bg-sky-200 mx-7 rounded-xl"
           >
             <Text className="text-4xl text-center text-gray-700">

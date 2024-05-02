@@ -15,6 +15,7 @@ import AssignmentScreen from "../screens/AssignmentScreen";
 import TranslateScreen from "../screens/TranslateScreen";
 import TranslateHomeScreen from "../screens/TranslateHomeScreen";
 import MCQScreen from "../screens/MCQScreen";
+import MCQHomeScreen from "../screens/MCQHomeScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -65,6 +66,11 @@ const DashScreenNavigator = () => {
         name="MCQ"
         options={{ headerShown: false }}
         component={MCQScreen}
+      />
+      <Stack.Screen
+        name="MCQHome"
+        options={{ headerShown: false }}
+        component={MCQHomeScreen}
       />
     </Stack.Navigator>
   );
@@ -172,6 +178,12 @@ const ActivityScreenNavigator = () => {
         name="Translate"
         options={{ headerShown: false }}
         component={TranslateScreen}
+      />
+
+      <Stack.Screen
+        name="MCQHome"
+        options={{ headerShown: false }}
+        component={MCQHomeScreen}
       />
     </Stack.Navigator>
   );
