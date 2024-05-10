@@ -100,7 +100,7 @@ const FlashcardScreen = ({ route }) => {
   return (
     <SafeAreaView
       className="flex-1"
-      style={{ backgroundColor: themeColors.bg }}
+      style={{ backgroundColor: '#ffffff' }}
     >
       <View className="flex-1 flex my-2">
         <View className="flex-row justify-start">
@@ -112,13 +112,9 @@ const FlashcardScreen = ({ route }) => {
             <ArrowLeftIcon size="20" color="black" />
           </TouchableOpacity>
           <View className="flex-row justify-center mt-5">
-            <Text className="text-white font-bold text-5xl mb-4 text-center">
-              {"   "}Flashcards{" "}
+            <Text className="text-black font-bold text-5xl mb-4 text-center">
+              {"     "}Flashcards{" "}
             </Text>
-            <Image
-              source={require("../assets/images/lightbulb.png")}
-              style={{ width: 42, height: 42 }}
-            />
           </View>
         </View>
 

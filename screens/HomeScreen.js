@@ -21,7 +21,7 @@ export default function HomeScreen() {
   return (
     <SafeAreaView
       className="flex-1"
-      style={{ backgroundColor: themeColors.bg }}
+      style={{ backgroundColor: '#ffffff'}}
     >
       <View className="flex-row justify-start">
           <TouchableOpacity
@@ -31,22 +31,23 @@ export default function HomeScreen() {
             <ArrowLeftIcon size="20" color="black" />
           </TouchableOpacity>
         </View>
-      <Text className="text-white font-bold text-5xl text-center mb-2">
-        Home
+      <Text className="text-black font-bold text-5xl text-center mb-2">
+        {"     "}Flashcards{" "}
       </Text>
       <View className="mt-1">
-        <Text className="text-white font-bold text-2xl text-center ">
+        <Text className="text-blackfont-bold text-2xl text-center ">
           Select Language:
         </Text>
 
         <Picker
-          selectedValue={selectedLanguage}
+            itemStyle={{ color: "black" }}
+            selectedValue={selectedLanguage}
           onValueChange={(itemValue) => setSelectedLanguage(itemValue)}
-          className="p-2 bg-gray-200 rounded-md text-sky-200"
+          className="p-2 bg-gray-200 rounded-md text-black"
         >
           <Picker.Item label="--Select A Language--" value="es" />
 
-          <Picker.Item className="text-sky-200" label="French" value="fr" />
+          <Picker.Item className="text-black" label="French" value="fr" />
           <Picker.Item label="Spanish" value="es" />
           <Picker.Item label="Chinese" value="zh" />
           <Picker.Item label="Hindi" value="hi" />
@@ -58,11 +59,12 @@ export default function HomeScreen() {
       </View>
 
       <View className="p-4">
-        <Text className="text-white font-bold text-2xl text-center ">
+        <Text className="text-black font-bold text-2xl text-center ">
           Select Language:
         </Text>
         <Picker
-          selectedValue={selectedCategory}
+            itemStyle={{ color: "black" }}
+            selectedValue={selectedCategory}
           onValueChange={(itemValue) => setSelectedCategory(itemValue)}
           className="p-2 bg-gray-200 rounded-md"
         >
@@ -80,10 +82,10 @@ export default function HomeScreen() {
       </View>
 
       <View className="mt-8">
-        <Text className="text-white font-bold text-base text-center ">
+        <Text className="text-black font-bold text-base text-center ">
           Selected Language: {selectedLanguage}
         </Text>
-        <Text className="text-white font-bold text-base text-center ">
+        <Text className="text-black font-bold text-base text-center ">
           Selected Category: {selectedCategory}
         </Text>
       </View>
@@ -91,7 +93,7 @@ export default function HomeScreen() {
 
       <TouchableOpacity
           onPress={() =>
-              navigation.navigate("CardMatch", {
+              navigation.navigate("Flashcards", {
                 selectedLanguage,
                 selectedCategory,
               })
@@ -99,7 +101,7 @@ export default function HomeScreen() {
           className="py-3 bg-sky-200 mx-7  mt-7 rounded-xl"
       >
         <Text className="text-xl font-bold text-center my-1 text-gray-700">
-          Begin Matching Cards
+          Start Flashcards
         </Text>
 
 

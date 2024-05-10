@@ -1,165 +1,274 @@
-import { View, Text, Image, TouchableOpacity } from "react-native";
-import React, { useState, useEffect } from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { signOut } from "firebase/auth";
-import { auth } from "../config/firebase";
+// CameraResultScreen.js
+import React, { useState } from "react";
+import {
+    View,
+    Text,
+    TouchableOpacity,
+    SafeAreaView,
+    ImageBackground,
+    Modal,
+    ScrollView,
+} from "react-native";
+import { ArrowLeftIcon } from "react-native-heroicons/solid";
 import { themeColors } from "../theme";
 import { Picker } from "@react-native-picker/picker";
-import axios from "axios"; // Import axios for API requests
+import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
-import { ArrowLeftIcon } from "react-native-heroicons/solid";
 
 const CameraResultScreen = ({ route }) => {
-  const { cameraText, detectedLanguage } = route.params;
-  const navigation = useNavigation();
-  const [selectedLanguage, setSelectedLanguage] = useState("");
-  const [translatedText, setTranslatedText] = useState("");
+    // Destructuring parameters from navigation route
+    const { cameraText } = route.params;
 
-  const translateText = async (text) => {
-    const apiKey = "1af657bb7dmsh2e461227948941bp186d8djsn58e9550d7e46";
+    // State for selected language and translated text
+    const [selectedLanguage, setSelectedLanguage] = useState("");
+    const [translatedText, setTranslatedText] = useState("");
 
-    const translateSingleText = async (singleText) => {
-      const url = 'https://text-translator2.p.rapidapi.com/translate';
+    // State for modal visibility
+    const [modalVisible, setModalVisible] = useState(false);
+    const [translationModalVisible, setTranslationModalVisible] = useState(false);
 
-      const formData = new FormData();
-      formData.append('source_language', 'en');
-      formData.append('target_language', selectedLanguage);
-      formData.append('text', singleText);
+    // Navigation instance for navigating between screens
+    const navigation = useNavigation();
 
-      try {
-        const response = await axios.post(url, formData, {
-          headers: {
-            'content-type': 'multipart/form-data',
-            'X-RapidAPI-Key': apiKey,
-            'X-RapidAPI-Host': 'text-translator2.p.rapidapi.com',
-          },
-        });
+    // Function to translate text
+    const translateText = async (text) => {
+        // API Key for translation service
+        const apiKey = "1af657bb7dmsh2e461227948941bp186d8djsn58e9550d7e46";
 
-        console.log('API Response:', response.data);
+        // URL of the translation API
+        const url = "https://text-translator2.p.rapidapi.com/translate";
 
-        if (response.data && response.data.status === 'success' && response.data.data && response.data.data.translatedText) {
-          console.log(response.data.data.translatedText);
-          return response.data.data.translatedText;
-        } else {
-          console.error('Invalid API Response:', response.data);
-          throw new Error('Invalid API response format');
+        // Creating form data for API request
+        const formData = new FormData();
+        formData.append("source_language", "en");
+        formData.append("target_language", selectedLanguage);
+        formData.append("text", text);
+
+        try {
+            // Sending POST request to translation API
+            const response = await axios.post(url, formData, {
+                headers: {
+                    "content-type": "multipart/form-data",
+                    "X-RapidAPI-Key": apiKey,
+                    "X-RapidAPI-Host": "text-translator2.p.rapidapi.com",
+                },
+            });
+
+            // Logging API response
+            console.log("API Response:", response.data);
+
+            // Checking if response is successful
+            if (
+                response.data &&
+                response.data.status === "success" &&
+                response.data.data &&
+                response.data.data.translatedText
+            ) {
+                // Setting translated text to state
+                setTranslatedText(response.data.data.translatedText);
+                setTranslationModalVisible(true); // Open translation modal
+                return response.data.data.translatedText;
+            } else {
+                console.error("Invalid API Response:", response.data);
+                throw new Error("Invalid API response format");
+            }
+        } catch (error) {
+            // Handling API request error
+            console.error("Translation Error:", error);
+            throw error;
         }
-      }  catch(error) {
-        if (error.response) {
-          console.log('Server responded with status code:', error.response.status);
-          console.log('Response data:', error.response.data);
-        } else if (error.request) {
-          console.log('No response received:', error.request);
-        } else {
-          console.log('Error creating request:', error.message);
-        }
-      }
     };
 
-    try {
+    // Function to handle translation process
+    const translate = async () => {
+        try {
+            // Call translateText function with cameraText and selectedLanguage
+            const translatedWord = await translateText(cameraText);
+            // Logging translated word
+            console.log(translatedWord);
+            // Setting translated word to state
+            setTranslatedText(translatedWord);
+        } catch (error) {
+            // Handling translation error
+            console.log(error);
+        }
+    };
 
-      if (Array.isArray(text)) {
-        // Handle an array of texts for translation
-        return Promise.all(text.map(translateSingleText));
-      } else {
-        // Handle a single text for translation
-        return translateSingleText(text);
-      }
+    return (
+        // Container for the screen content
+        <SafeAreaView style={{ flex: 1, backgroundColor: themeColors.bg }}>
+            {/* Main content view */}
+            <View style={{ flex: 1, justifyContent: "center" }}>
+                {/* Button to navigate back */}
+                <TouchableOpacity
+                    onPress={() => navigation.goBack()}
+                    style={{ position: "absolute", top: 20, left: 20 }}
+                >
+                    <ArrowLeftIcon size={24} color="black" />
+                </TouchableOpacity>
+                {/* Text showing detected text */}
+                <Text style={{ textAlign: "center", fontSize: 24, marginBottom: 20 }}>
+                    Text Detected:
+                </Text>
+                <Text style={{ textAlign: "center", fontSize: 18 }}>{cameraText}</Text>
 
-    } catch (error) {
-      console.error("Translation error:", error);
-      throw error;
-    }
-  };
+                {/* Button to select translation language */}
+                <TouchableOpacity
+                    onPress={() => setModalVisible(true)}
+                    style={{
+                        backgroundColor: "skyblue",
+                        paddingVertical: 10,
+                        marginHorizontal: 20,
+                        borderRadius: 10,
+                        marginTop: 20,
+                    }}
+                >
+                    <Text style={{ textAlign: "center", fontSize: 18 }}>
+                        Translate Text to: {selectedLanguage || "--Select Language--"}
+                    </Text>
+                </TouchableOpacity>
 
-  const handleLogout = async () => {
-    await signOut(auth);
-  };
+                {/* Button to trigger translation */}
+                <TouchableOpacity
+                    onPress={translate}
+                    style={{
+                        backgroundColor: "skyblue",
+                        paddingVertical: 10,
+                        marginHorizontal: 20,
+                        borderRadius: 10,
+                        marginTop: 20,
+                    }}
+                >
+                    <Text style={{ textAlign: "center", fontSize: 18 }}>Translate</Text>
+                </TouchableOpacity>
+            </View>
 
-  const translate = async () => {
-    try {
-      const translatedWord = await translateText(cameraText, selectedLanguage)
-      console.log(translatedWord)
-      setTranslatedText(translatedWord)
+            {/* Modal for language selection */}
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => {
+                    setModalVisible(!modalVisible);
+                }}
+            >
+                <SafeAreaView style={{ flex: 1 }}>
+                    <View
+                        style={{
+                            flex: 1,
+                            justifyContent: "center",
+                            alignItems: "center",
+                        }}
+                    >
+                        {/* Modal content */}
+                        <View
+                            style={{
+                                backgroundColor: "white",
+                                padding: 20,
+                                borderRadius: 10,
+                                width: 300,
+                            }}
+                        >
+                            {/* Text for language selection */}
+                            <Text style={{ textAlign: "center", fontSize: 18, marginBottom: 20 }}>
+                                Select Language:
+                            </Text>
+                            {/* Picker for selecting language */}
+                            <Picker
+                                selectedValue={selectedLanguage}
+                                onValueChange={(itemValue) => setSelectedLanguage(itemValue)}
+                                style={{ backgroundColor: "#f0f0f0", borderRadius: 10 }}
+                            >
+                                {/* Placeholder item */}
+                                <Picker.Item label="--Select Language--" value="" />
+                                {/* Language options */}
+                                <Picker.Item label="Arabic" value="ar" />
+                                <Picker.Item label="Chinese" value="zh" />
+                                <Picker.Item label="English" value="en" />
+                                <Picker.Item label="French" value="fr" />
+                                <Picker.Item label="German" value="da" />
+                                <Picker.Item label="Greek" value="da" />
+                                <Picker.Item label="Gujarati" value="da" />
+                                <Picker.Item label="Hindi" value="hi" />
+                                <Picker.Item label="Japanese" value="da" />
+                                <Picker.Item label="Korean" value="ko" />
+                                <Picker.Item label="Polish" value="pl" />
+                                <Picker.Item label="Portuguese" value="pt" />
+                                <Picker.Item label="Spanish" value="es" />
+                                <Picker.Item label="Russian" value="ru" />
 
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
-  return (
-    <SafeAreaView
-      className="flex-1"
-      style={{ backgroundColor: themeColors.bg }}
-    >
-      <View className=" flex-1 justify-around my-4">
+                                {/* Add more languages */}
+                            </Picker>
+                            {/* Confirm button */}
+                            <TouchableOpacity
+                                onPress={() => setModalVisible(false)}
+                                style={{
+                                    backgroundColor: "skyblue",
+                                    paddingVertical: 10,
+                                    borderRadius: 10,
+                                    marginTop: 20,
+                                }}
+                            >
+                                <Text style={{ textAlign: "center", fontSize: 18 }}>Confirm</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </SafeAreaView>
+            </Modal>
 
-      <TouchableOpacity
-            style={{ width: 36, height: 40 }}
-            onPress={() => navigation.goBack()}
-            className="bg-sky-200 p-2 rounded-tr-2xl rounded-bl-2xl ml-4"
-          >
-            <ArrowLeftIcon size="20" color="black" />
-          </TouchableOpacity>
-        <Text className="text-white font-bold text-3xl text-center">
-          Text Detected:
-        </Text>
-        <Text className="text-white text-lg text-center">
-          {cameraText}
-        </Text>
-
-        <View className="mt-1">
-          <Text className="text-white font-bold text-2xl text-center ">
-            Translate Text to: {selectedLanguage}
-          </Text>
-
-          <Picker
-            itemStyle={{ color: "white" }}
-            selectedValue={selectedLanguage}
-            onValueChange={(itemValue) => setSelectedLanguage(itemValue)}
-            className="bg-gray-200 rounded-md text-sky-200"
-          >
-            <Picker.Item label="--Select Language--" value="en" />
-
-            <Picker.Item label="Arabic" value="ar" />
-            <Picker.Item label="Chinese" value="zh" />
-            <Picker.Item label="English" value="en" />
-            <Picker.Item label="French" value="fr" />
-            <Picker.Item label="German" value="da" />
-            <Picker.Item label="Greek" value="da" />
-            <Picker.Item label="Gujarati" value="da" />
-            <Picker.Item label="Hindi" value="hi" />
-            <Picker.Item label="Japanese" value="da" />
-            <Picker.Item label="Korean" value="ko" />
-            <Picker.Item label="Polish" value="pl" />
-            <Picker.Item label="Portuguese" value="pt" />
-            <Picker.Item label="Spanish" value="es" />
-            <Picker.Item label="Russian" value="ru" />
-
-            {/* decide on language list */}
-          </Picker>
-          <TouchableOpacity
-            onPress={translate}
-            className="py-2 bg-sky-200 mx-20 rounded-xl"
-          >
-            <Text className="text-xl font-bold text-center text-gray-700">
-              Translate
-            </Text>
-          </TouchableOpacity>
-        </View>
-
-        <Text className="text-white font-bold text-3xl text-center">
-          Translated Text:
-        </Text>
-        <Text className="text-white text-lg text-center">
-          {translatedText}
-        </Text>
-        <View className="space-y-4">
-
-        </View>
-      </View>
-    </SafeAreaView>
-  );
+            {/* Modal for displaying translated text */}
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={translationModalVisible}
+                onRequestClose={() => setTranslationModalVisible(false)}
+            >
+                <SafeAreaView style={{ flex: 1 }}>
+                    <View
+                        style={{
+                            flex: 1,
+                            justifyContent: "center",
+                            alignItems: "center",
+                            backgroundColor: "rgba(0, 0, 0, 0.5)",
+                        }}
+                    >
+                        {/* Modal content */}
+                        <View
+                            style={{
+                                backgroundColor: "white",
+                                padding: 20,
+                                borderRadius: 10,
+                                width: 400,
+                                maxHeight: 1500,
+                            }}
+                        >
+                            {/* Text for translated text */}
+                            <Text style={{ textAlign: "center", fontSize: 18, marginBottom: 20 }}>
+                                Translated Text:
+                            </Text>
+                            <ScrollView>
+                                <Text style={{ textAlign: "center", fontSize: 18, marginBottom: 20 }}>
+                                    {translatedText}
+                                </Text>
+                            </ScrollView>
+                            {/* Close button */}
+                            <TouchableOpacity
+                                onPress={() => setTranslationModalVisible(false)}
+                                style={{
+                                    backgroundColor: "skyblue",
+                                    paddingVertical: 10,
+                                    borderRadius: 10,
+                                }}
+                            >
+                                <Text style={{ textAlign: "center", fontSize: 18 }}>Close</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </SafeAreaView>
+            </Modal>
+        </SafeAreaView>
+    );
 };
 
 export default CameraResultScreen;

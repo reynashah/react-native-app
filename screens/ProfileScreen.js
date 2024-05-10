@@ -17,7 +17,7 @@ export default function ProfileScreen() {
   return (
     <SafeAreaView
       className="flex-1"
-      style={{ backgroundColor: themeColors.bg }}
+      style={{ backgroundColor: '#ffffff' }}
     >
       <TouchableOpacity
         style={{ width: 80, height: 40 }}

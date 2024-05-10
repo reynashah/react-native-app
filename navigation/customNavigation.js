@@ -21,9 +21,9 @@ const Stack = createNativeStackNavigator();
 
 const DashScreenNavigator = () => {
   return (
-    <Stack.Navigator initialRouteName="Dashboard">
+    <Stack.Navigator initialRouteName="DashboardTab">
       <Stack.Screen
-        name="Dashboard"
+        name="Classroom"
         options={{ headerShown: false }}
         component={ClassroomScreen}
       />
@@ -43,7 +43,7 @@ const DashScreenNavigator = () => {
         component={FlashcardScreen}
       />
       <Stack.Screen
-        name="Camera"
+        name="CameraTab"
         options={{ headerShown: false }}
         component={CameraScreen}
       />
@@ -53,7 +53,7 @@ const DashScreenNavigator = () => {
         component={CameraResultScreen}
       />
       <Stack.Screen
-        name="Profile"
+        name="ProfileTab"
         options={{ headerShown: false }}
         component={ProfileScreen}
       />
@@ -68,10 +68,21 @@ const DashScreenNavigator = () => {
         component={MCQScreen}
       />
       <Stack.Screen
-        name="MCQHome"
+        name="Translate"
         options={{ headerShown: false }}
-        component={MCQHomeScreen}
+        component={TranslateScreen}
       />
+        <Stack.Screen
+            name="TranslateHome"
+            options={{ headerShown: false }}
+            component={TranslateHomeScreen}
+        />
+        <Stack.Screen
+            name="MCQHome"
+            options={{ headerShown: false }}
+            component={MCQHomeScreen}
+        />
+
     </Stack.Navigator>
   );
 };
@@ -79,9 +90,9 @@ export { DashScreenNavigator };
 
 const CameraScreenNavigator = () => {
     return (
-        <Stack.Navigator initialRouteName="Camera">
+        <Stack.Navigator initialRouteName="CameraTab">
             <Stack.Screen
-                name="Classroom"
+                name="ClassroomTab"
                 options={{ headerShown: false }}
                 component={ClassroomScreen}
             />
@@ -95,11 +106,7 @@ const CameraScreenNavigator = () => {
                 options={{ headerShown: false }}
                 component={FlashcardScreen}
             />
-            <Stack.Screen
-                name="Camera"
-                options={{ headerShown: false }}
-                component={CameraScreen}
-            />
+
             <Stack.Screen
                 name="CameraResult"
                 options={{ headerShown: false }}
@@ -119,80 +126,23 @@ const CameraScreenNavigator = () => {
                 name="MCQ"
                 options={{ headerShown: false }}
                 component={MCQScreen}
+            />
+
+            <Stack.Screen
+                name="Camera"
+                options={{ headerShown: false }}
+                component={CameraScreen}
             />
         </Stack.Navigator>
     );
 };
 export { CameraScreenNavigator };
 
-const ActivityScreenNavigator = () => {
-    return (
-        <Stack.Navigator initialRouteName="Activity">
-            <Stack.Screen
-                name="Activity"
-                options={{ headerShown: false }}
-                component={ActivityScreen}
-            />
-            <Stack.Screen
-                name="MCQ"
-                options={{ headerShown: false }}
-                component={MCQScreen}
-            />
-            <Stack.Screen
-                name="Home"
-                options={{ headerShown: false }}
-                component={HomeScreen}
-            />
-            <Stack.Screen
-                name="Flashcards"
-                options={{ headerShown: false }}
-                component={FlashcardScreen}
-            />
-            <Stack.Screen
-                name="Camera"
-                options={{ headerShown: false }}
-                component={CameraScreen}
-            />
-            <Stack.Screen
-                name="CameraResult"
-                options={{ headerShown: false }}
-                component={CameraResultScreen}
-            />
-            <Stack.Screen
-                name="Profile"
-                options={{ headerShown: false }}
-                component={ProfileScreen}
-            />
-            <Stack.Screen
-                name="CardMatch"
-                options={{ headerShown: false }}
-                component={CardMatchScreen}
-            />
-            <Stack.Screen
-                name="TranslateHome"
-                options={{ headerShown: false }}
-                component={TranslateHomeScreen}
-            />
 
-      <Stack.Screen
-        name="Translate"
-        options={{ headerShown: false }}
-        component={TranslateScreen}
-      />
-
-      <Stack.Screen
-        name="MCQHome"
-        options={{ headerShown: false }}
-        component={MCQHomeScreen}
-      />
-    </Stack.Navigator>
-  );
-};
-export { ActivityScreenNavigator };
 
 const ProfileScreenNavigator = () => {
     return (
-        <Stack.Navigator initialRouteName="Profile">
+        <Stack.Navigator initialRouteName="ProfileTab">
             <Stack.Screen
                 name="Profile"
                 options={{ headerShown: false }}

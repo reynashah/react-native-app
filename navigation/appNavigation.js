@@ -45,13 +45,13 @@ export default function AppNavigation() {
             <NavigationContainer>
                 <Tab.Navigator screenOptions={screenOptions}>
                     <Tab.Screen
-                        name="Classroom"
+                        name="ClassroomTab"
                         component={DashScreenNavigator}
                         options={{
                             tabBarIcon: ({focused})=>{
                                 return (
                                     <View style={{alignItems: "center", justifyContent: "center"}}>
-                                        <Entypo name="home" size={24} color={focused ? "#16247d": "#111"} />
+                                        <Entypo name="home" size={24} color={focused ? "#153243": "#111"} />
                                         <Text style={{fontSize: 12, color: "#16247d"}}>HOME</Text>
                                     </View>
                                 )
@@ -59,41 +59,28 @@ export default function AppNavigation() {
                         }}
                     />
                     <Tab.Screen
-                        name="Camera"
+                        name="CameraTab"
                         component={CameraScreenNavigator}
                         options={{
                             tabBarIcon: ({focused})=>{
                                 return (
                                     <View style={{alignItems: "center", justifyContent: "center"}}>
-                                        <Entypo name="wallet" size={24} color={focused ? "#16247d": "#111"} />
+                                        <Entypo name="wallet" size={24} color={focused ? "#153243": "#111"} />
                                         <Text style={{fontSize: 12, color: "#16247d"}}>CAMERA</Text>
                                     </View>
                                 )
                             }
                         }}
                     />
+
                     <Tab.Screen
-                        name="Activity"
-                        component={ActivityScreenNavigator}
-                        options={{
-                            tabBarIcon: ({focused})=>{
-                                return (
-                                    <View style={{alignItems: "center", justifyContent: "center"}}>
-                                        <MaterialIcons name="stacked-line-chart" size={24} color={focused ? "#16247d": "#111"} />
-                                        <Text style={{fontSize: 12, color: "#16247d"}}>ACTIVITY</Text>
-                                    </View>
-                                )
-                            }
-                        }}
-                    />
-                    <Tab.Screen
-                        name="Profile"
+                        name="ProfileTab"
                         component={ProfileScreenNavigator}
                         options={{
                             tabBarIcon: ({focused})=>{
                                 return (
                                     <View style={{alignItems: "center", justifyContent: "center"}}>
-                                        <Ionicons name="settings" size={24}  color={focused ? "#16247d": "#111"} />
+                                        <Ionicons name="settings" size={24}  color={focused ? "#153243": "#111"} />
                                         <Text style={{fontSize: 12, color: "#16247d"}}>PROFILE</Text>
                                     </View>
                                 )

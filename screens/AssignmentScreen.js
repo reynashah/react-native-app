@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Button, FlatList, TouchableOpacity, Modal, SafeAreaView, TextInput } from 'react-native';
+import { View, Text, Button, FlatList, TouchableOpacity, Modal, SafeAreaView, TextInput, ScrollView, SectionList } from 'react-native';
 import { getFirestore, collection, addDoc, getDocs } from 'firebase/firestore';
 import { useNavigation } from '@react-navigation/native';
 import { themeColors } from "../theme";
@@ -146,10 +146,10 @@ const AssignmentScreen = ({ route }) => {
 
         switch (type) {
             case 'MultipleChoice':
-                navigation.navigate('MCQ', { selectedLanguage });
+                navigation.navigate('MCQ', { selectedLanguage, selectedCategory: selectedTopic });
                 break;
             case 'TranslateSentences':
-                navigation.navigate('Translate', { selectedLanguage });
+                navigation.navigate('Translate', { selectedLanguage, selectedCategory: selectedTopic });
                 break;
             case 'MatchingCards':
                 navigation.navigate("CardMatch", { selectedLanguage, selectedCategory: selectedTopic });
@@ -162,6 +162,7 @@ const AssignmentScreen = ({ route }) => {
                 console.error('Invalid assignment type:', type);
         }
     };
+
 
     const renderItem = ({ item }) => (
         <TouchableOpacity onPress={() => navigateToActivityScreen(item)}>
@@ -180,30 +181,47 @@ const AssignmentScreen = ({ route }) => {
         </View>
     );
 
+
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: themeColors.bg }}>
+        <ScrollView style={{ flex: 1, backgroundColor: '#eef0eb' }}>
             {isOwner && (
-                <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', paddingVertical: 20 }}>
-                    <TouchableOpacity onPress={showAddAssignmentModal} style={{ backgroundColor: '#3e588d', padding: 10, borderRadius: 10 }}>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', paddingVertical: 20 , marginTop: 20}}>
+                    <TouchableOpacity onPress={showAddAssignmentModal} style={{ backgroundColor: '#153243', padding: 10, borderRadius: 10, marginTop: 20 }}>
                         <Text style={{ color: '#ffffff', fontWeight: 'bold', fontSize: 16, textAlign: 'center' }}>Add Assignment</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={showAddPostModal} style={{ backgroundColor: '#3e588d', padding: 10, borderRadius: 10 }}>
+                    <TouchableOpacity onPress={showAddPostModal} style={{ backgroundColor: '#153243', padding: 10, borderRadius: 10 , marginTop: 20}}>
                         <Text style={{ color: '#ffffff', fontWeight: 'bold', fontSize: 16, textAlign: 'center' }}>Add Post</Text>
                     </TouchableOpacity>
                 </View>
             )}
-            <Text style={{ textAlign: 'center', fontSize: 18, fontWeight: 'bold', marginBottom: 10 }}>Assignments:</Text>
-            <FlatList
+            <SectionList
+                sections={[
+                    { title: 'Assignments:', data: assignments },
+                ]}
+                renderSectionHeader={({ section: { title } }) => (
+                    <Text style={{ textAlign: 'center', fontSize: 18, fontWeight: 'bold', marginTop: 20, marginBottom: 10 }}>{title}</Text>
+                )}
                 data={assignments}
                 renderItem={renderItem}
                 keyExtractor={item => item.id}
+
+
             />
-            <Text style={{ textAlign: 'center', fontSize: 18, fontWeight: 'bold', marginTop: 20, marginBottom: 10 }}>Updates:</Text>
-            <FlatList
+            <SectionList
+                sections={[
+                    { title: 'Updates:', data: posts },
+                ]}
+                renderSectionHeader={({ section: { title } }) => (
+                    <Text style={{ textAlign: 'center', fontSize: 18, fontWeight: 'bold', marginTop: 20, marginBottom: 10 }}>{title}</Text>
+                )}
                 data={posts}
                 renderItem={renderPostItem}
                 keyExtractor={item => item.id}
+
+
             />
+
+
             <Modal
                 animationType="slide"
                 transparent={true}
@@ -241,8 +259,7 @@ const AssignmentScreen = ({ route }) => {
                         />
                         <Text style={{ marginBottom: 5 }}>Select A Category:</Text>
                         <BoxPicker
-                            options={[
-                                { label: '--Select A Category--', value: '' },
+                            options={[{ label: '--Select A Category--', value: '' },
                                 { label: 'Basic Vocabulary', value: 'Basic' },
                                 { label: 'Family Members', value: 'Family' },
                                 { label: 'Food', value: 'Food' },
@@ -280,8 +297,9 @@ const AssignmentScreen = ({ route }) => {
                     </View>
                 </View>
             </Modal>
-        </SafeAreaView>
+        </ScrollView>
     );
+
 };
 
 export default AssignmentScreen;

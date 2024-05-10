@@ -125,7 +125,7 @@ const MCQScreen = ({ route }) => {
   return (
     <SafeAreaView
       className="flex-1"
-      style={{ backgroundColor: themeColors.bg }}
+      style={{ backgroundColor: '#ffffff' }}
     >
       <View className="flex-row justify-start">
         <TouchableOpacity
@@ -135,10 +135,10 @@ const MCQScreen = ({ route }) => {
           <ArrowLeftIcon size="20" color="black" />
         </TouchableOpacity>
       </View>
-      <Text className="text-white font-bold text-4xl text-center">
+      <Text className="text-black font-bold text-4xl text-center">
         Multiple Choice
       </Text>
-      <Text className="text-white text-4xl text-center my-2">
+      <Text className="text-black text-3xl text-center my-2">
         Question {currentQuestionIndex + 1} :
       </Text>
       <View style={styles.container}>
@@ -151,7 +151,8 @@ const MCQScreen = ({ route }) => {
             style={styles.optionButton}
             onPress={() => handleAnswer(index)}
           >
-            <Text className="text-zinc-700 text-md">{option}</Text>
+            <Text className="text-zinc-50 text-md">{option}</Text>
+
           </TouchableOpacity>
         ))}
       </View>
@@ -161,7 +162,7 @@ const MCQScreen = ({ route }) => {
         </TouchableOpacity>
       )}
       {isVisible && (
-        <TouchableOpacity className="py-3 bg-emerald-500 mx-12 my-2 rounded-xl">
+        <TouchableOpacity className="py-3 bg-emerald-700 mx-12 my-2 rounded-xl">
           <Text className="text-2xl text-center text-gray-700">Correct! </Text>
         </TouchableOpacity>
       )}
@@ -183,15 +184,18 @@ const styles = StyleSheet.create({
   },
   questionText: {
     fontSize: 40,
-    color: "white",
+    color: '#153243',
     marginBottom: 10,
     textAlign: "center",
   },
   optionButton: {
     padding: 10,
     marginVertical: 5,
-    backgroundColor: "#c9caf2",
+    backgroundColor: "#153243",
     borderRadius: 5,
+    width: 150,
+    height:40,
+    textAlign:"center"
   },
 });
 export default MCQScreen;

@@ -21,7 +21,7 @@ export default function TranslateHomeScreen() {
   return (
     <SafeAreaView
       className="flex-1"
-      style={{ backgroundColor: themeColors.bg }}
+      style={{ backgroundColor:'#ffffff'}}
     >
       <View className="flex-row justify-start">
           <TouchableOpacity
@@ -31,16 +31,18 @@ export default function TranslateHomeScreen() {
             <ArrowLeftIcon size="20" color="black" />
           </TouchableOpacity>
         </View>
-      <Text className="text-white font-bold text-5xl text-center mb-2">
-        Home
+      <Text className="text-black font-bold text-4xl text-center mb-2">
+        Translate Sentences!
       </Text>
       <View className="mt-1">
-        <Text className="text-white font-bold text-2xl text-center ">
+        <Text className="text-black font-bold text-2xl text-center ">
           Select Language:
         </Text>
 
         <Picker
-          selectedValue={selectedLanguage}
+            itemStyle={{ color: "black" }}
+
+            selectedValue={selectedLanguage}
           onValueChange={(itemValue) => setSelectedLanguage(itemValue)}
           className="p-2 bg-gray-200 rounded-md text-sky-200"
         >
@@ -58,11 +60,12 @@ export default function TranslateHomeScreen() {
       </View>
 
       <View className="p-4">
-        <Text className="text-white font-bold text-2xl text-center ">
+        <Text className="text-black font-bold text-2xl text-center ">
           Select Language:
         </Text>
         <Picker
-          selectedValue={selectedCategory}
+            itemStyle={{ color: "black" }}
+            selectedValue={selectedCategory}
           onValueChange={(itemValue) => setSelectedCategory(itemValue)}
           className="p-2 bg-gray-200 rounded-md"
         >
@@ -80,10 +83,10 @@ export default function TranslateHomeScreen() {
       </View>
 
       <View className="mt-8">
-        <Text className="text-white font-bold text-base text-center ">
+        <Text className="text-black font-bold text-base text-center ">
           Selected Language: {selectedLanguage}
         </Text>
-        <Text className="text-white font-bold text-base text-center ">
+        <Text className="text-black font-bold text-base text-center ">
           Selected Category: {selectedCategory}
         </Text>
       </View>

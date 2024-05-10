@@ -20,16 +20,15 @@ const CardMatchScreen = ({ route }) => {
             (category) => category.name === selectedCategory
         );
 
-        if (selectedCategoryData) {
+        if (selectedCategoryData && selectedCategoryData.translations) {
             const shuffledWords = shuffle(selectedCategoryData.words).slice(0, 5);
-            const shuffledTranslations = shuffle(
-                selectedCategoryData.translations.slice(0, 5)
-            );
+            const shuffledTranslations = shuffle(selectedCategoryData.translations).slice(0, 5);
 
             setWords(shuffledWords);
             setTranslations(shuffledTranslations);
         }
     }, [selectedCategory, selectedLanguage]);
+
 
     const handleWordPress = (word, translation, index) => {
         if (selectedWords.length === 2) {
@@ -62,7 +61,7 @@ const CardMatchScreen = ({ route }) => {
     };
 
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: themeColors.bg }}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: '#ffffff'}}>
             <View style={{ flex: 1 }}>
                 <Text style={{ alignSelf: "flex-end", marginRight: 10 }}>Score: {score}</Text>
                 <FlatList
