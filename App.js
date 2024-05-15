@@ -7,6 +7,7 @@ import AppNavigation from './navigation/appNavigation';
 // import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 // import HomeScreen from './screens/HomeScreen';
 // import GameStore from './screens/gameStore';
+import 'react-native-reanimated'
 
 // const Tab = createBottomTabNavigator();
 
